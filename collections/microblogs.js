@@ -1,0 +1,1 @@
+Microblogs = new Meteor.Collection('microblogs');
