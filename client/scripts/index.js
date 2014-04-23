@@ -15,11 +15,11 @@ Meteor.startup(function () {
 	console.log("center coords: "+center_coords);
 
 
-	x_scale = d3.scale.linear()
+	x_scale_map = d3.scale.linear()
 		.domain([longitude_1, longitude_2])
 		.range([0, map_width]);
 
-	y_scale = d3.scale.linear()
+	y_scale_map = d3.scale.linear()
 		.domain([latitude_1, latitude_2])
 		.range([0, map_height]);
 
@@ -35,7 +35,7 @@ Meteor.startup(function () {
 	console.log(days);
 
 	// Set initial day
-	Session.set("day_start", days[0]);
+	Session.set("day_start", days[20]);
 });
 
 

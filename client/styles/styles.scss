@@ -2,8 +2,8 @@
 // @import 'packages/bootstrap3-sass/bootstrap';
 
 //Grids
-.col {
-	
+.row {
+	margin:0;
 }
 
 #col_left {
@@ -16,6 +16,12 @@
 	float: left;
 }
 
+
+// Map Styles
+#map > svg {
+	background: url("images/Vastopolis_Map.png");
+	background-size: cover;
+}
 .pin {
 	fill: #F2465A;
 }
@@ -25,7 +31,7 @@
 	pointer-events: all;
 }
 
-
+// View Options Styles
 .mousecoords {
 	span {
 		margin-left: 10px;
