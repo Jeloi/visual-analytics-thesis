@@ -9,13 +9,7 @@ Template.map.plot_nodes = function () {
     // var d = data[50];
     // console.log(d.longitude+" "+d.latitude);
     // Map Scales
-    var x_scale = d3.scale.linear()
-        .domain([longitude_1, longitude_2])
-        .range([0, map_width]);
 
-    var y_scale = d3.scale.linear()
-        .domain([latitude_1, latitude_2])
-        .range([0, map_height]);
 
     var data = Microblogs.find().fetch();
 	console.log(Microblogs.find().count());
@@ -35,6 +29,7 @@ Template.map.plot_nodes = function () {
 }
 
 Template.map.rendered = function () {
+
 	var map_bg = d3.select("#map")
 	        .append("svg")
 	        .attr("width", map_width)
@@ -47,4 +42,15 @@ Template.map.rendered = function () {
 	    .attr("x", 0)
 	    .attr("y",0);
 
+	// Mouse coordinates
+	var mouse_coords = [0, 0];
+	d3.select("#map svg").on('mousemove', function(event) {
+		mouse_coords = d3.mouse(this);
+		// Use the scales, inverted to go in opposite direction. Round to 4 decimals
+		var x = x_scale.invert(mouse_coords[0]);
+		var y = y_scale.invert(mouse_coords[1]);
+		$('div.mousecoords span.x').html(x.toFixed(4));
+		$('div.mousecoords span.y').html(y.toFixed(4));
+	});
 }
+

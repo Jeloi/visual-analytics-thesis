@@ -1,9 +1,3 @@
-
-
-
-
-
-
 Meteor.startup(function () {
 	// Map Dimensions (global variables)
 	map_width = 1200;
@@ -14,11 +8,20 @@ Meteor.startup(function () {
 	    longitude_1 = 93.5673;
 	// Bottom right corner
 	latitude_2 = 42.1609,
-	    longitude_2 = 93.1923;
+	longitude_2 = 93.1923;
 
-	center_coords = [(longitude_1+longitude_2)/2, (latitude_1+latitude_2)/2]
+	center_coords = [(longitude_1+longitude_2)/2, (latitude_1+latitude_2)/2];
 
 	console.log("center coords: "+center_coords);
+
+
+	x_scale = d3.scale.linear()
+		.domain([longitude_1, longitude_2])
+		.range([0, map_width]);
+
+	y_scale = d3.scale.linear()
+		.domain([latitude_1, latitude_2])
+		.range([0, map_height]);
 
 	// First and last day
 	var first_day = new Date(2011, 3, 30);
@@ -31,6 +34,7 @@ Meteor.startup(function () {
 
 	console.log(days);
 
+	// Set initial day
 	Session.set("day_start", days[0]);
 });
 
