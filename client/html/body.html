@@ -4,17 +4,19 @@
 </head>
 
 <body>
-	<div class="row">
-		<div id="col_left">
-			{{> map}}
-		</div>
-		
-		<div id="col_right">
-			<p>Sample text</p>
-			{{> view_options}}
-		</div>
+	<table class="">
+<tr>
+	<td id="col_left">
+		{{> map}}
+	</td>
+	
+	<td id="col_right">
+		<h2>Geovisual Microblog Analytics</h2>
+		{{> view_options}}
+	</td>
+</tr>
 
-	</div>
+	</table>
 </body>
 
 <!-- Templates -->
@@ -35,13 +37,14 @@
 		<p><strong>N:</strong><span class="y">0</span></p>
 		<p><strong>W:</strong><span class="x">0</span></p>
 	</div>
+	<h4>View Options</h4>
 	<div class="checkbox">
 	  <label> <input type="checkbox" value="snapshot"> Day Snapshot </label>
 	  <label> <input type="checkbox" value="microblogs" checked="checked"> Microblogs </label>
 	  <label> <input type="checkbox" value="hospitals"> Hospitals </label>
 	  <label> <input type="checkbox" value="weather"> Weather </label>
 	</div>
-
+	<h4>Map</h4>
 	<div class="btn-group map_color">
 	  <button type="button" class="btn btn-default" data-color="bw">BW</button>
 	  <button type="button" class="btn btn-default active" data-color="color">Color</button>
