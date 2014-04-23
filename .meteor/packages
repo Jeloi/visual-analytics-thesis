@@ -6,5 +6,6 @@
 standard-app-packages
 insecure
 scss
-bootstrap3-sass
 d3
+bootstrap
+Crossfilter

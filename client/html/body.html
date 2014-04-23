@@ -4,27 +4,37 @@
 </head>
 
 <body>
-  {{> map}}
+	<div class="row">
+		<div id="col_left">
+			{{> map}}
+		</div>
+		
+		<div id="col_right">
+			<p>Sample text</p>
+			{{> view_options}}
+		</div>
+
+	</div>
 </body>
 
+<!-- Templates -->
 <template name="map">
-	<section id="main">
-		<div class="fluid-container">
-			<div class="fluid-row">
-				<div class="wrapper">
-					<div class="main" id="map">
+	<div class="main" id="map">
 
-					</div>
-				</div>
-
-				<div class="span8">  
-					<div id="graphic"></div>
-				</div>
-			</div>  
-		</div>
-	</section>
+	</div>
 </template>
+
 
 <template name="timeline">
 	
+</template>
+
+
+<template name="view_options">
+	<div class="checkbox">
+	  <label> <input type="checkbox" value="snapshot"> Day Snapshot </label>
+	  <label> <input type="checkbox" value="microblogs" checked="checked"> Microblogs </label>
+	  <label> <input type="checkbox" value="hospitals"> Hospitals </label>
+	  <label> <input type="checkbox" value="weather"> Weather </label>
+	</div>
 </template>
