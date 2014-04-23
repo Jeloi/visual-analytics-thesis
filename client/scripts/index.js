@@ -36,6 +36,24 @@ Meteor.startup(function () {
 
 	// Set initial day
 	Session.set("day_start", days[20]);
+
+	function preloadImages(array) {
+	    if (!preloadImages.list) {
+	        preloadImages.list = [];
+	    }
+	    for (var i = 0; i < array.length; i++) {
+	        var img = new Image();
+	        img.src = array[i];
+	        preloadImages.list.push(img);
+	    }
+	}
+
+	var imageURLs = [
+	    "/images/Vastopolis_Map_BW.png",
+	    "/images/Vastopolis_Map.png"
+	];
+
+	preloadImages(imageURLs);
 });
 
 
