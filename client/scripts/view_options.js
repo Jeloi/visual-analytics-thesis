@@ -1,7 +1,6 @@
 Template.view_options.events({
 	'change input[type=checkbox]': function (p) {
 		var option = p.target.value;
-		console.log(option);
 		if (option == "microblogs") {
 			if (p.target.checked) {
 				d3.selectAll('#map .pin').classed({'hidden': false});
@@ -10,7 +9,6 @@ Template.view_options.events({
 			}
 		}
 		else if (option == 'hospitals') {
-			console.log("got here!");
 			if (p.target.checked) {
 				d3.selectAll('#map .hospital').each(function(index, el) {
 					this.parentNode.appendChild(this);

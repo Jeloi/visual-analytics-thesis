@@ -19,11 +19,19 @@
 }
 .pin {
 	fill: #F2465A;
+	fill-opacity: 0.5;
 }
 
 .hospitals {
 	// fill: none;
 	// stroke
+}
+
+
+.extent {
+  fill: #61F28F;
+  fill-opacity: .325;
+  stroke: #fff;
 }
 
 .overlay {
