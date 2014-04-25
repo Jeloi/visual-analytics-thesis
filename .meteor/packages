@@ -5,7 +5,9 @@
 
 standard-app-packages
 insecure
-scss
-d3
-bootstrap
 Crossfilter
+d3
+scss
+mongodb-aggregation
+bootstrap
+dc.js-package

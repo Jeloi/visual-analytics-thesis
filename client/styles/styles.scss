@@ -13,13 +13,13 @@
 
 
 // Map Styles
-#map > svg {
+svg#map {
 	background: url("images/Vastopolis_Map.png");
 	background-size: cover;
 }
 .pin {
 	fill: #F2465A;
-	fill-opacity: 0.5;
+	fill-opacity: 0.9;
 }
 
 .hospitals {
@@ -30,7 +30,7 @@
 
 .extent {
   fill: #61F28F;
-  fill-opacity: .325;
+  fill-opacity: .125;
   stroke: #fff;
 }
 

@@ -13,13 +13,11 @@ Template.map.y_scale = d3.scale.linear()
 		.domain([latitude_1, latitude_2])
 		.range([0, map_height]);
 
-
-
 Template.map.plot_nodes = function () {
-	console.log("inside plot_nodes");
-	console.log(Microblogs.find().count());
-    var data = Microblogs.find().fetch();
-    var svg = d3.select("#map svg");
+	// console.log("inside plot_nodes");
+	console.log(oneDayBlogs(Session.get("day_start")).count());
+    var data = oneDayBlogs(Session.get("day_start")).fetch();
+    var svg = d3.select("svg#map");
 
     svg.selectAll(".pin")
     .data(data)
@@ -34,13 +32,13 @@ Template.map.plot_nodes = function () {
     });
 
     // Append the brush rectangle to the end of the svg, so that it stays on top of all points
-    d3.selectAll('#map svg > rect.background').each(function () {
+    d3.selectAll('svg#map > rect.background, svg#map > rect.extent').each(function () {
     	this.parentNode.appendChild(this);
     })
 }
 
 Template.map.brush = function () {
-    var svg = d3.select("#map svg");
+    var svg = d3.select("svg#map");
 
 	var brush = d3.svg.brush()
 	    .x(Template.map.x_scale)
@@ -55,8 +53,9 @@ Template.map.brush = function () {
 Template.map.rendered = function () {
 
 	// Append the svg
-	var svg = d3.select("#map")
+	var svg = d3.select("#map_container")
         .append("svg")
+        .attr("id", "map")
         .attr("width", map_width)
         .attr("height", map_height);
 
@@ -67,9 +66,9 @@ Template.map.rendered = function () {
 		$(this).addClass('active');
 		console.log($(this).data("color"));
 		if ($(this).data("color") == "bw") {
-			$("#map > svg").css('background-image', "url(/images/Vastopolis_Map_BW.png)");		
+			$("svg#map").css('background-image', "url(/images/Vastopolis_Map_BW.png)");		
 		} else{
-			$("#map > svg").css('background-image', "url(/images/Vastopolis_Map.png)");	
+			$("svg#map").css('background-image', "url(/images/Vastopolis_Map.png)");	
 		};
 	});
 
@@ -95,7 +94,7 @@ Template.map.rendered = function () {
 
 	// Mouse coordinates
 	var mouse_coords = [0, 0];
-	d3.select("#map svg").on('mousemove', function(event) {
+	d3.select("svg#map").on('mousemove', function(event) {
 		mouse_coords = d3.mouse(this);
 		// Use the scales, inverted to go in opposite direction. Round to 4 decimals
 		var x = Template.map.x_scale.invert(mouse_coords[0]);

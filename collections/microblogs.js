@@ -1,6 +1,7 @@
 Microblogs = new Meteor.Collection('microblogs');
 
 
+
 // microblogsPerHour = function() {
 //   return Microblogs.find
 // }
@@ -26,3 +27,12 @@ Microblogs = new Meteor.Collection('microblogs');
 aFunction = function  () {
 	console.log("call me maybe!");
 }
+
+
+// db.microblogs.aggregate(
+//     { $group : {
+//         _id : "$author",
+//         docsPerAuthor : { $sum : 1 },
+//         viewsPerAuthor : { $sum : "$pageViews" }
+//     }}
+// );
