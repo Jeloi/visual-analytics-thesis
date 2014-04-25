@@ -33,6 +33,7 @@ Deps.autorun(function () {
 
 });
 
+// Separate Deps.autorun so that dayChange isn't called as subscription is streamed in.
 Deps.autorun(function  () {
 	dayChange(); // the reactive source in the call to Template.map.remove_nodes() (Session.get("day_start")) makes this get called
 })
