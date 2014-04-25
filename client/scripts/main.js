@@ -15,16 +15,14 @@ console.log(Session.get("day_start"));
 
 
 Deps.autorun(function () {
-	console.log("AUTORUN BEING CALLED");
 	if (Session.get("day_start") != null) {
-		Meteor.subscribe("day_blogs", Session.get("day_start"), function () { console.log('done loading all microblogs for the selected day');
+		Meteor.subscribe("day_blogs", Session.get("day_start"), function () { 
 			Template.map.brush(); //add brushing after points have been plotted
 		});	//updates when Session.get("day_start"), Session.get("day_end") changes
 
 		// Session.set("current_day_blogs", oneDayBlogs(Session.get("day_start")));
 
 	};
-
 	Template.map.plot_nodes(); //updates because of the call to Microblogs collection, which is getting streamed in by the subscription
 
 // 	Meteor.subscribe("all", function() { 
@@ -36,7 +34,7 @@ Deps.autorun(function () {
 });
 
 Deps.autorun(function  () {
-	// console.log("got here!");
+	dayChange(); // the reactive source in the call to Template.map.remove_nodes() (Session.get("day_start")) makes this get called
 })
 
 

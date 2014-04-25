@@ -1,8 +1,3 @@
-Template.map.microblogs = function () {
-	console.log(Microblogs.find().count());
-	return Microblogs.find().fetch();
-}
-
 // Map Scales
 Template.map.x_scale = d3.scale.linear()
 		.domain([longitude_1, longitude_2])
@@ -16,13 +11,15 @@ Template.map.y_scale = d3.scale.linear()
 Template.map.plot_nodes = function () {
 	// console.log("inside plot_nodes");
 	console.log(oneDayBlogs(Session.get("day_start")).count());
-	console.log(Session.get("day_start"));
+
     var data = oneDayBlogs(Session.get("day_start")).fetch();
     var svg = d3.select("svg#map");
 
-    svg.selectAll(".pin")
-    .data(data)
-    .enter().append("circle")
+    var nodes = svg.selectAll(".pin").data(data)
+
+    if (Session.get("day_start") != Session.get("day_change_tracker")) {};
+
+    nodes.enter().append("circle")
     .attr("class", "pin")
     .attr("r", 2)
     .attr('cx', function(d) {
@@ -36,6 +33,14 @@ Template.map.plot_nodes = function () {
     d3.selectAll('svg#map > rect.background, svg#map > rect.extent').each(function () {
     	this.parentNode.appendChild(this);
     })
+}
+
+Template.map.remove_nodes = function  () {
+	console.log("in remove_nodes!");
+	// Watch Session.get("day_start")
+	var day_start = Session.get("day_start")
+    var svg = d3.select("svg#map");
+    var nodes = svg.selectAll(".pin").remove();
 }
 
 Template.map.brush = function () {

@@ -1,7 +1,7 @@
 Meteor.publish('day_blogs', function (day_start) {
 
 	console.log(day_start);
-	return oneDayBlogs(day_start, 100000);
+	return oneDayBlogs(day_start, 5000);
 
 	// return Microblogs.find();
 });
