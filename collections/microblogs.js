@@ -22,3 +22,7 @@ Microblogs = new Meteor.Collection('microblogs');
 // 		initial: { total: 0}
 // 	} )
 // }
+
+aFunction = function  () {
+	console.log("call me maybe!");
+}

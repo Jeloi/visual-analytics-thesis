@@ -14,9 +14,11 @@ Template.map.y_scale = d3.scale.linear()
 		.range([0, map_height]);
 
 
+
 Template.map.plot_nodes = function () {
-    var data = Microblogs.find().fetch();
+	console.log("inside plot_nodes");
 	console.log(Microblogs.find().count());
+    var data = Microblogs.find().fetch();
     var svg = d3.select("#map svg");
 
     svg.selectAll(".pin")
@@ -31,13 +33,23 @@ Template.map.plot_nodes = function () {
     	return Template.map.y_scale(d.latitude);
     });
 
-    var brush = d3.svg.brush()
-        .x(Template.map.x_scale)
-        .y(Template.map.y_scale);
-        // .on("brushstart", brushstart)
-        // .on("brush", brushmove)
-        // .on("brushend", brushend);
-    svg.call(brush);
+    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
+    d3.selectAll('#map svg > rect.background').each(function () {
+    	this.parentNode.appendChild(this);
+    })
+}
+
+Template.map.brush = function () {
+    var svg = d3.select("#map svg");
+
+	var brush = d3.svg.brush()
+	    .x(Template.map.x_scale)
+	    .y(Template.map.y_scale);
+	    // .on("brushstart", brushstart)
+	    // .on("brush", brushmove)
+	    // .on("brushend", brushend);
+	svg.call(brush);
+	console.log("called brush!");
 }
 
 Template.map.rendered = function () {
@@ -62,7 +74,6 @@ Template.map.rendered = function () {
 	});
 
 	// Hospitals
-	var hospital_coords = [[42.1656,93.3432],[42.1718,93.3911],[42.2023,93.4448],[42.2011,93.4954],[42.2020,93.5570],[42.2539,93.4789],[42.2969,93.5317],[42.2503,93.4192],[42.2832,93.3645],[42.2916,93.2342],[42.2170,93.2479],[42.2378,93.3307],[42.2131,93.3611]];
 
 	svg.selectAll(".hospitals")
 		.data(hospital_coords)
@@ -92,5 +103,6 @@ Template.map.rendered = function () {
 		$('div.mousecoords span.x').html(x.toFixed(4));
 		$('div.mousecoords span.y').html(y.toFixed(4));
 	});
+
 }
 
