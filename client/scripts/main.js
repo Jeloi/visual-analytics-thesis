@@ -1,15 +1,31 @@
+console.log("STARTUP FILE BEING CALLED");
+// Array to store all the dates
+days = [];
+// First and last day
+var first_day = new Date(2011, 3, 30);
+var last_day = new Date(2011, 4, 21);
+for (var d = first_day; d <= last_day; d.setDate(d.getDate() + 1)) {
+    days.push(new Date(d));
+}
+
+// Set initial day_start and day_end
+Session.set("day_start", days[1]);
+
+console.log(Session.get("day_start"));
+
+
 Deps.autorun(function () {
 	console.log("AUTORUN BEING CALLED");
 	if (Session.get("day_start") != null) {
-		Meteor.subscribe("day_blogs", Session.get("day_start"), Session.get("day_end"), function () { console.log('done loading all microblogs for the selected day');
+		Meteor.subscribe("day_blogs", Session.get("day_start"), function () { console.log('done loading all microblogs for the selected day');
 			Template.map.brush(); //add brushing after points have been plotted
 		});	//updates when Session.get("day_start"), Session.get("day_end") changes
 
 		// Session.set("current_day_blogs", oneDayBlogs(Session.get("day_start")));
-		console.log("I think it was storying all the blogs in the session");
-		
-		Template.map.plot_nodes(); //updates because of the call to Microblogs collection, which is getting streamed in by the subscription
+
 	};
+
+	Template.map.plot_nodes(); //updates because of the call to Microblogs collection, which is getting streamed in by the subscription
 
 // 	Meteor.subscribe("all", function() { 
 // 		console.log("done subscribing");
@@ -18,5 +34,9 @@ Deps.autorun(function () {
 
 
 });
+
+Deps.autorun(function  () {
+	// console.log("got here!");
+})
 
 

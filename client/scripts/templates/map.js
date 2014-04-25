@@ -16,6 +16,7 @@ Template.map.y_scale = d3.scale.linear()
 Template.map.plot_nodes = function () {
 	// console.log("inside plot_nodes");
 	console.log(oneDayBlogs(Session.get("day_start")).count());
+	console.log(Session.get("day_start"));
     var data = oneDayBlogs(Session.get("day_start")).fetch();
     var svg = d3.select("svg#map");
 
