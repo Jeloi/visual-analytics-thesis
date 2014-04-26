@@ -15,9 +15,18 @@ Template.map.plot_nodes = function () {
     var data = oneDayBlogs(Session.get("day_start")).fetch();
     var svg = d3.select("svg#map");
 
-    var nodes = svg.selectAll(".pin").data(data)
+    // console.log("day_start: "+Session.get("day_start"));
+    // console.log("day_change_tracker: "+Session.get("day_change_tracker"));
 
-    if (Session.get("day_start") != Session.get("day_change_tracker")) {};
+    // Remove all pins initially and if the day changes
+    if (Session.get("day_change_tracker") == null || (Session.get("day_start").valueOf() != Session.get("day_change_tracker").valueOf())) {
+    	console.log("day changed!");
+    	Session.set("day_change_tracker", Session.get("day_start"));
+    	// Template.map.remove_nodes();
+    	svg.selectAll(".pin").remove();
+    };
+
+    var nodes = svg.selectAll(".pin").data(data)
 
     nodes.enter().append("circle")
     .attr("class", "pin")

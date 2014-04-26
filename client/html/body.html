@@ -28,7 +28,10 @@
 
 
 <template name="timeline">
-	<div id="timeline"></div>
+	<div id="timeline_container"></div>
+	<div id="data-count">
+	    <span class="filter-count"></span> selected out of <span class="total-count"></span> records
+	</div>
 </template>
 
 
@@ -43,7 +46,7 @@
 	<div id="current_day">
 		{{current_day}}
 	</div>
-	
+
 
 	<h4>Map</h4>
 	<div class="btn-group map_color">
