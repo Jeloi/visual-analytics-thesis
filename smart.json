@@ -1,5 +1,6 @@
 {
   "packages": {
-    "dc.js-package": {}
+    "dc.js-package": {},
+    "npm": {}
   }
 }
