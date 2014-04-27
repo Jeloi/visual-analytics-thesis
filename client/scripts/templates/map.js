@@ -16,11 +16,21 @@ Template.map.plot_nodes = function () {
     svg.selectAll(".pin").remove();
 
     console.log(Session.get("day_index"));
-    d3.csv('csvs/day-'+Session.get("day_index")+'.csv', function(d) {
-    // d3.csv('csvs/day-0.csv', function(d) {
+    d3.csv('csvs/day-'+Session.get("day_index")+'.csv', function(data) {
+    	
+    	// Coerce the data into its proper form
+    	data.forEach(function (d) {
+    		d.date_time = d3.time.format.iso.parse(d.date_time);
+    		d._id = d._id.replace(/ObjectID\(|\)/g, "");
+    		// d.longitude = +d.longitude;
+    		// d.latitude = +d.latitude;
+    	});
+
+    	day_data = data;
     	var svg = d3.select("svg#map");
-    	console.log(d.length);
-    	svg.selectAll(".pin").data(d).enter().append("circle")
+
+    	console.log(data.length);
+    	svg.selectAll(".pin").data(data).enter().append("circle")
     	.attr("class", "pin")
     	.attr("r", 2)
     	.attr('cx', function(d) {

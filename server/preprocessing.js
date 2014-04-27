@@ -33,14 +33,16 @@ Meteor.methods({
 
 		for (var i = 0; i < days.length; i++) {
 			console.log(days[i]);
-			exec("mongoexport -h localhost:3001 --db meteor --collection microblogs --csv --fields id,date_time,text,longitude,latitude -q '{date_time:{$gte:new Date("+days[i].getTime()+"),$lt:new Date("+days[i+1].getTime()+")}}"+"' --out ~/meteor-thesis/lib/csvs/day-"+i+".csv", function(error, stdout, stderr) {
+			exec("mongoexport -h localhost:3001 --db meteor --collection microblogs --csv --fields '_id,id,date_time,text,longitude,latitude' -q '{date_time:{$gte:new Date("+days[i].getTime()+"),$lt:new Date("+days[i+1].getTime()+")}}"+"' --out ~/meteor-thesis/lib/csvs/day-"+i+".csv", function(error, stdout, stderr) {
 				console.log(stdout);
 				console.log(stderr);
 			});
 		};
 
 	},
-	dev_clog: function() {
-		console.log("got here!");
+	dev_clog: function(arg) {
+		var find_result = Microblogs.findOne({_id: arg});
+		console.log(find_result);
+		console.log(Microblogs.findOne({}));
 	}
 });
