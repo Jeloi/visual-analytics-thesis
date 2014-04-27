@@ -30,13 +30,15 @@ Template.map.plot_nodes = function () {
     		return Template.map.y_scale(d.latitude);
     	});
 
+    	// Call brushing method
+	    Template.map.brush();
+
+	    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
+	    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
+	    	this.parentNode.appendChild(this);
+	    })
+
     });
-
-
-    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
-    d3.selectAll('svg#map > rect.background, svg#map > rect.extent').each(function () {
-    	this.parentNode.appendChild(this);
-    })
 }
 
 Template.map.remove_nodes = function  () {
