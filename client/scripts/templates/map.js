@@ -9,34 +9,29 @@ Template.map.y_scale = d3.scale.linear()
 		.range([0, map_height]);
 
 Template.map.plot_nodes = function () {
-	// console.log("inside plot_nodes");
-	console.log(oneDayBlogs(Session.get("day_start")).count());
+	console.log("inside plot_nodes");
 
-    var data = oneDayBlogs(Session.get("day_start")).fetch();
     var svg = d3.select("svg#map");
 
-    // console.log("day_start: "+Session.get("day_start"));
-    // console.log("day_change_tracker: "+Session.get("day_change_tracker"));
+    svg.selectAll(".pin").remove();
 
-    // Remove all pins initially and if the day changes
-    if (Session.get("day_change_tracker") == null || (Session.get("day_start").valueOf() != Session.get("day_change_tracker").valueOf())) {
-    	console.log("day changed!");
-    	Session.set("day_change_tracker", Session.get("day_start"));
-    	// Template.map.remove_nodes();
-    	svg.selectAll(".pin").remove();
-    };
+    console.log(Session.get("day_index"));
+    d3.csv('csvs/day-'+Session.get("day_index")+'.csv', function(d) {
+    // d3.csv('csvs/day-0.csv', function(d) {
+    	var svg = d3.select("svg#map");
+    	console.log(d.length);
+    	svg.selectAll(".pin").data(d).enter().append("circle")
+    	.attr("class", "pin")
+    	.attr("r", 2)
+    	.attr('cx', function(d) {
+    		return Template.map.x_scale(d.longitude);
+    	})
+    	.attr('cy', function(d){
+    		return Template.map.y_scale(d.latitude);
+    	});
 
-    var nodes = svg.selectAll(".pin").data(data)
-
-    nodes.enter().append("circle")
-    .attr("class", "pin")
-    .attr("r", 2)
-    .attr('cx', function(d) {
-    	return Template.map.x_scale(d.longitude);
-    })
-    .attr('cy', function(d){
-    	return Template.map.y_scale(d.latitude);
     });
+
 
     // Append the brush rectangle to the end of the svg, so that it stays on top of all points
     d3.selectAll('svg#map > rect.background, svg#map > rect.extent').each(function () {

@@ -23,7 +23,8 @@ Template.view_options.events({
 
 Template.view_options.helpers({
 	current_day: function () {
-		var d = Session.get("day_start");
+		var i = Session.get("day_index");
+		var d = days[i];
 		var curr_date = d.getDate();
 	    var curr_month = d.getMonth() + 1; //Months are zero based
 	    var curr_year = d.getFullYear();
