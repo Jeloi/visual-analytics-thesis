@@ -4,15 +4,32 @@
 days = [];
 // First and last day
 var first_day = new Date(2011, 3, 30);
-var last_day = new Date(2011, 4, 21);
+var last_day = new Date(2011, 4, 20);
 for (var d = first_day; d <= last_day; d.setDate(d.getDate() + 1)) {
     days.push(new Date(d));
 }
 
 
-// Set initial day_start and day_end
+// Set initial Session variables
 Session.set("day_index", 0);
 Session.set("day_start", days[0]);
+Session.set("days_loaded", 0);
+Session.set("all_data_loaded", false);
+
+var svg = d3.select("svg#map");
+for (var i = 0; i < days.length; i++) {
+	Meteor.call("get_day", days[i], i, function  (error, result) {
+		console.log(result[0].length);
+
+		var day_index = result[1];
+		console.log("day_index: "+result[1]);
+		Template.map.plot_nodes(result[0], mongoId, result[1]);
+		all_data.push(result[0]);
+		Session.set("days_loaded", Session.get("days_loaded")+1);
+	})
+};
+
+
 
 
 // var microblogs_subscription = Meteor.subscribe("day_blogs", Session.get("day_start"), function () { 
@@ -22,6 +39,10 @@ Session.set("day_start", days[0]);
 // });	//updates when Session.get("day_start"), Session.get("day_end") changes
 
 Deps.autorun(function () {
+	if (Session.get("days_loaded") == days.length) {
+		Session.set("all_data_loaded", true);
+		console.log("loaded all "+days.length);		
+	};
 	// if (Session.get("day_start") != null) {
 	// 	microblogs_subscription.stop();
 	// Meteor.subscribe("day_blogs", Session.get("day_start"), function () { 
@@ -35,7 +56,7 @@ Deps.autorun(function () {
 
 // Separate Deps.autorun so that dayChange isn't called as subscription is streamed in.
 Deps.autorun(function  () {
-	Template.map.plot_nodes();
+	// Template.map.plot_nodes();
 	// Template.timeline.draw();
 	dayChange(); // the reactive source in the call to Template.map.remove_nodes() (Session.get("day_start")) makes this get called
 })

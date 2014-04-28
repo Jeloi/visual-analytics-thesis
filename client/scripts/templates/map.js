@@ -8,34 +8,33 @@ Template.map.y_scale = d3.scale.linear()
 		.domain([latitude_1, latitude_2])
 		.range([0, map_height]);
 
-Template.map.plot_nodes = function () {
+Template.map.plot_nodes = function (data, key, day_index) {
 	console.log("inside plot_nodes");
 
     var svg = d3.select("svg#map");
 
-    svg.selectAll(".pin").remove();
+    // svg.selectAll(".pin").remove();
 
-    console.log(Session.get("day_index"));
-    d3.csv('csvs/day-'+Session.get("day_index")+'.csv', function(data) {
-    	console.log(data[0]);
-    	// Coerce the data into its proper form
-    	data.forEach(function (d) {
-    		// console.log(d);
-    		d.date_time = d3.time.format.iso.parse(d.date_time);
-    		d._id = d._id.replace(/ObjectID\(|\)/g, "");
-    		// d.longitude = +d.longitude;
-    		// d.latitude = +d.latitude;
-    	});
-    	console.log(data[0]);
+    // console.log(Session.get("day_index"));
+    // d3.csv('csvs/day-'+Session.get("day_index")+'.csv', function(data) {
+    // 	console.log(data[0]);
+    // 	// Coerce the data into its proper form
+    // 	data.forEach(function (d) {
+    // 		// console.log(d);
+    // 		d.date_time = d3.time.format.iso.parse(d.date_time);
+    // 		d._id = d._id.replace(/ObjectID\(|\)/g, "");
+    // 		// d.longitude = +d.longitude;
+    // 		// d.latitude = +d.latitude;
+    // 	});
+    // 	console.log(data[0]);
 
 
     	day_data = data;
     	Session.set("total_day_microblogs", day_data.length);
 
-    	var svg = d3.select("svg#map");
-
-    	console.log(data.length);
-    	svg.selectAll(".pin").data(data).enter().append("circle")
+    	var g = svg.select('g#day-'+day_index);
+    	// console.log(data.length);
+    	g.selectAll(".pin").data(data, key).enter().append("circle")
     	.attr("class", "pin")
     	.attr("r", 2)
     	.attr('cx', function(d) {
@@ -45,18 +44,22 @@ Template.map.plot_nodes = function () {
     		return Template.map.y_scale(d.latitude);
     	});
 
-    	// Call brushing method
-	    Template.map.brush();
+    	g.classed("hidden", function() { 
+    		return !(day_index == Session.get("day_index"));
+    	})
 
-	    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
-	    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
-	    	this.parentNode.appendChild(this);
-	    })
+  //   	// Call brushing method
+	 //    Template.map.brush();
 
-		// Call Timeline method
-		Template.timeline.draw();	    
+	 //    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
+	 //    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
+	 //    	this.parentNode.appendChild(this);
+	 //    })
 
-    });
+		// // Call Timeline method
+		// Template.timeline.draw();	    
+
+    // });
 }
 
 Template.map.remove_nodes = function  () {
@@ -88,6 +91,10 @@ Template.map.rendered = function () {
         .attr("id", "map")
         .attr("width", map_width)
         .attr("height", map_height);
+
+    for (var i = 0; i < days.length; i++) {
+    	svg.append('g').attr('id', 'day-'+i);
+    };
 
 	// Map color
 	$(".map_color").on('click', 'button', function(event) {

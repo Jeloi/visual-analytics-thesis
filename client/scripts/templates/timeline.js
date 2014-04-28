@@ -30,23 +30,8 @@ Template.timeline.draw = function() {
 	// Grouped data, where each object is of the form {key: <>, value: >}, key being hour of day and value being sum blogs
 	var data = hours_group.all();
 
-	console.log(hours_group.size());
-	console.log(hours_group.all());
-
-	// var blogsPerHourChart = dc.barChart("#timeline_container");
-
-	// blogsPerHourChart
-	// 	.width(map_width).height(timeline_height)
-	// 	.dimension(hours_dimension)
-	// 	.group(hours_group)
-	// 	// .round(d3.time.hour.floor)
-	// 	// .centerBar(true)
-	// 	// .alwaysUseRounding(true)
-	// 	// .xUnits(d3.time.hours)
-	// 	.x(d3.time.scale().domain([0,24])); 
-
-	// blogsPerHourChart.yAxis().ticks(2)
-	// blogsPerHourChart.xAxis().ticks(24)
+	// console.log(hours_group.size());
+	// console.log(hours_group.all());
 
 
 	var margin = {top: 0, bottom: 20, left: 0, right: 0},

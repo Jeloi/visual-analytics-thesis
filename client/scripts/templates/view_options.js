@@ -3,9 +3,9 @@ Template.view_options.events({
 		var option = p.target.value;
 		if (option == "microblogs") {
 			if (p.target.checked) {
-				d3.selectAll('#map .pin').classed({'hidden': false});
+				d3.select('svg#map g#day-'+Session.get('day_index')).classed('hidden', false);
 			} else{
-				d3.selectAll('#map .pin').classed({'hidden': true});
+				d3.select('svg#map g#day-'+Session.get('day_index')).classed('hidden', true);
 			}
 		}
 		else if (option == 'hospitals') {
