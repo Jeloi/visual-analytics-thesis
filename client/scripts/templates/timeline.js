@@ -155,7 +155,7 @@ Template.timeline.draw = function() {
 
 	 	// console.log(min_key+" "+max_key);
 
-	 	d3.selectAll('.pin').classed('hidden', function  (d) {
+	 	d3.select("svg#map g#day-"+Session.get("day_index")).selectAll('.pin').classed('hidden', function  (d) {
 	 		var hour = d.date_time.getHours();
 	 		return !(hour >= min_key && hour <= max_key);
 	 	})

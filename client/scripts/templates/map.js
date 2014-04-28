@@ -29,8 +29,8 @@ Template.map.plot_nodes = function (data, key, day_index) {
     // 	console.log(data[0]);
 
 
-    	day_data = data;
-    	Session.set("total_day_microblogs", day_data.length);
+    	day_data = all_data[Session.get("day_index")];
+    	// Session.set("total_day_microblogs", day_data.length);
 
     	var g = svg.select('g#day-'+day_index);
     	// console.log(data.length);
@@ -48,16 +48,18 @@ Template.map.plot_nodes = function (data, key, day_index) {
     		return !(day_index == Session.get("day_index"));
     	})
 
-  //   	// Call brushing method
-	 //    Template.map.brush();
+    	if (day_index == Session.get("day_index")) {
+	    	// Call brushing method
+		    Template.map.brush();
 
-	 //    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
-	 //    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
-	 //    	this.parentNode.appendChild(this);
-	 //    })
+		    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
+		    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
+		    	this.parentNode.appendChild(this);
+		    })
 
-		// // Call Timeline method
-		// Template.timeline.draw();	    
+			// Call Timeline method
+			Template.timeline.draw();	    
+    	};
 
     // });
 }
