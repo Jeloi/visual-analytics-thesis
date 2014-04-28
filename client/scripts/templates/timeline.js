@@ -1,3 +1,17 @@
+Template.timeline.helpers({
+	current_day: function () {
+		var i = Session.get("day_index");
+		var d = days[i];
+		var curr_date = d.getDate();
+	    var curr_month = d.getMonth() + 1; //Months are zero based
+	    var curr_year = d.getFullYear();
+	    return (curr_month + "-" + curr_date + "-" + curr_year);
+	},
+	total_microblogs: function() { 
+		return Session.get("total_day_microblogs");
+	}	
+});
+
 Template.timeline.draw = function() { 
 	// Timeline
 	// var svg = d3.select("#timeline_container").append("svg")
@@ -152,9 +166,9 @@ Template.timeline.draw = function() {
 	    
 	    data.forEach(function(d) {
 	      if (extent[0] <= x(d.key) && x(d.key) + x.rangeBand() <= extent[1])
-	        sum += d.y;
+	        sum += d.value;
 	    });
-	    sumDiv.text('TOTAL: ' + sum);
+	    d3.select('#selected_microblogs div').text(sum);
 	  }  
 
 	  makeSum();

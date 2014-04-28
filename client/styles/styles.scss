@@ -7,6 +7,10 @@ body {
 	background-color: #333;
 }
 
+h1,h2,h3,h4,h5,h6 {
+	color: #FFF28C;
+}
+
 //Grids
 #col_left {
 	width: 1200px;
@@ -41,6 +45,25 @@ body {
 	.axis text {
 	  fill: #f0f0f0;
 	  font-size: 11px;
+	}
+}
+
+#timeline_text {
+	margin-bottom: 10px;
+	height: 1.5em;
+	clear: both;
+	// text-align: center;
+	h5, div {
+		display: inline;
+	}
+	#selected_microblogs {
+		float: right;
+	}
+	#total_microblogs, #current_day {
+		float: left;
+	}
+	#total_microblogs {
+		margin-left: 1em;
 	}
 }
 

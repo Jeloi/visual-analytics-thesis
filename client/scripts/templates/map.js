@@ -30,6 +30,8 @@ Template.map.plot_nodes = function () {
 
 
     	day_data = data;
+    	Session.set("total_day_microblogs", day_data.length);
+
     	var svg = d3.select("svg#map");
 
     	console.log(data.length);

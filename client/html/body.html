@@ -28,11 +28,21 @@
 
 
 <template name="timeline">
-	<div id="timeline_container">
-		
+	<div id="timeline_text">
+		<div id="current_day">
+			<h5>Day:</h5>
+			{{current_day}}
+		</div>
+		<div id="total_microblogs">
+			<h5>Total:</h5>
+			{{total_microblogs}}
+		</div>
+		<div id="selected_microblogs">
+			<h5>Selected:</h5>
+			<div></div>
+		</div>
 	</div>
-	<div id="data-count">
-	</div>
+	<div id="timeline_container"></div>
 </template>
 
 
@@ -42,12 +52,6 @@
 		<p><strong>N:</strong><span class="y">0</span></p>
 		<p><strong>W:</strong><span class="x">0</span></p>
 	</div>
-
-	<h4>Day</h4>
-	<div id="current_day">
-		{{current_day}}
-	</div>
-
 
 	<h4>Map</h4>
 	<div class="btn-group map_color">
