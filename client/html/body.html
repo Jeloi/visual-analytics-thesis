@@ -7,7 +7,10 @@
 	<table class="">
 <tr>
 	<td id="col_left">
-		{{> map}}
+		<div class="main" id="map_container">
+			{{> map}}
+			{{> loading}}
+		</div>
 		{{> timeline}}
 		{{> dateline}}
 	</td>
@@ -23,8 +26,7 @@
 
 <!-- Templates -->
 <template name="map">
-	<div class="main" id="map_container">
-	</div>
+	
 </template>
 
 
@@ -73,4 +75,15 @@
 	  <label> <input type="checkbox" value="hospitals"> Hospitals </label>
 	  <label> <input type="checkbox" value="weather"> Weather </label>
 	</div>
+</template>
+
+
+<template name="loading">
+	{{#if initialLoading}}
+	<div class="progress">
+	  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+	    <span class="sr-only">60% Complete</span>
+	  </div>
+	</div>
+	{{/if}}
 </template>
