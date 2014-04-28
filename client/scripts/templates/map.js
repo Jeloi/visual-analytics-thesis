@@ -8,7 +8,7 @@ Template.map.y_scale = d3.scale.linear()
 		.domain([latitude_1, latitude_2])
 		.range([0, map_height]);
 
-Template.map.plot_nodes = function (data, key, day_index) {
+Template.map.plot_nodes = function (data, day_index) {
 	console.log("inside plot_nodes");
 
     var svg = d3.select("svg#map");
@@ -34,7 +34,7 @@ Template.map.plot_nodes = function (data, key, day_index) {
 
     	var g = svg.select('g#day-'+day_index);
     	// console.log(data.length);
-    	var pins = g.selectAll(".pin").data(data, key).enter().append("circle")
+    	var pins = g.selectAll(".pin").data(data, mongoId).enter().append("circle")
 	    	.attr("class", "pin")
 	    	.attr("r", 2)
 	    	.attr('cx', function(d) {
@@ -48,18 +48,18 @@ Template.map.plot_nodes = function (data, key, day_index) {
 	    		return !(day_index == Session.get("day_index"));
 	    	})
 
-    	if (day_index == Session.get("day_index")) {
-	    	// Call brushing method
-		    Template.map.brush();
+   //  	if (day_index == Session.get("day_index")) {
+	  //   	// Call brushing method
+		 //    Template.map.brush();
 
-		    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
-		    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
-		    	this.parentNode.appendChild(this);
-		    })
+		 //    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
+		 //    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
+		 //    	this.parentNode.appendChild(this);
+		 //    })
 
-			// Call Timeline method
-			Template.timeline.draw(day_index);	    
-    	};
+			// // Call Timeline method
+			// Template.timeline.draw(day_index);	    
+   //  	};
 
     // });
 }
