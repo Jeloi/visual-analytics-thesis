@@ -38,6 +38,8 @@ Template.timeline.draw = function(day_index) {
 	// Construct margin based on the max Y val's length * font-size
 	margin.left = formatNumber(d3.max(data, function(d) { return d.value; })).length * 8;
 
+	console.log("got to here");
+
 	var w = width - margin.left - margin.right,
 		h = height - margin.top - margin.bottom;
 

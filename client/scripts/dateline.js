@@ -25,8 +25,8 @@ Template.dateline.add_daychart = function(day_data, day_index) {
     y.domain(d3.extent(data, function(d) { return d.value; }));
 
 	var line = d3.svg.line()
-	    .x(function(d) { console.log(d.key); return x(d.key); })
-	    .y(function(d) { console.log(d.value); return y(d.value); });
+	    .x(function(d) { return x(d.key); })
+	    .y(function(d) { return y(d.value); });
 
 	var svg = d3.select("#dateline").append("svg")
 		.attr('width', width)

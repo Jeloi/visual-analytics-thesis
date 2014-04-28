@@ -34,19 +34,19 @@ Template.map.plot_nodes = function (data, key, day_index) {
 
     	var g = svg.select('g#day-'+day_index);
     	// console.log(data.length);
-    	g.selectAll(".pin").data(data, key).enter().append("circle")
-    	.attr("class", "pin")
-    	.attr("r", 2)
-    	.attr('cx', function(d) {
-    		return Template.map.x_scale(d.longitude);
-    	})
-    	.attr('cy', function(d){
-    		return Template.map.y_scale(d.latitude);
-    	});
+    	var pins = g.selectAll(".pin").data(data, key).enter().append("circle")
+	    	.attr("class", "pin")
+	    	.attr("r", 2)
+	    	.attr('cx', function(d) {
+	    		return Template.map.x_scale(d.longitude);
+	    	})
+	    	.attr('cy', function(d){
+	    		return Template.map.y_scale(d.latitude);
+	    	});
 
-    	g.classed("hidden", function() { 
-    		return !(day_index == Session.get("day_index"));
-    	})
+	    	g.classed("hidden", function() { 
+	    		return !(day_index == Session.get("day_index"));
+	    	})
 
     	if (day_index == Session.get("day_index")) {
 	    	// Call brushing method
