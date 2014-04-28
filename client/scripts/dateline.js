@@ -10,4 +10,32 @@ Template.dateline.add_daychart = function(day_data, day_index) {
 
 
 	// Make daychart
+	var width=100, height=150;
+
+	// Scales
+	var x = d3.scale.linear()
+	    .range([0, width])
+	    .domain([0, data.length]);
+
+	var y = d3.scale.linear()
+	    .range([height, 0])
+	    .domain([0,4000]);
+
+    x.domain(d3.extent(data, function(d) { return d.key; }));
+    y.domain(d3.extent(data, function(d) { return d.value; }));
+
+	var line = d3.svg.line()
+	    .x(function(d) { console.log(d.key); return x(d.key); })
+	    .y(function(d) { console.log(d.value); return y(d.value); });
+
+	var svg = d3.select("#dateline").append("svg")
+		.attr('width', width)
+		.attr('height', height)
+		.append('g');
+
+
+	svg.append("path")
+	      .datum(data)
+	      .attr("class", "line")
+	      .attr("d", line);
 }

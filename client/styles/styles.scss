@@ -1,6 +1,8 @@
 // Import bootstrap
 // @import 'packages/bootstrap3-sass/bootstrap';
 
+$blue: #5EB4E3;
+
 body {
 	font: 14px helvetica;
 	color: #f0f0f0;
@@ -9,6 +11,10 @@ body {
 
 h1,h2,h3,h4,h5,h6 {
 	color: #FFF28C;
+}
+
+#title {
+	color: #78C656;
 }
 
 //Grids
@@ -25,7 +31,7 @@ h1,h2,h3,h4,h5,h6 {
 #timeline_container {
 	height: 130px;
 	.bar {
-	  fill: #5EB4E3;
+	  fill: $blue;
 	}
 	.selected {
 	  fill: #78C656;
