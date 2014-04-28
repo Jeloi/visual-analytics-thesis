@@ -151,17 +151,43 @@ Template.timeline.draw = function() {
 
 	  function brushmove() {
 	    var extent = d3.event.target.extent();
-	    bars.classed("selected", function(d) { return extent[0] <= x(d.key) && x(d.key) + x.rangeBand() <= extent[1]; });
+	    var min_key, max_key
+	    // Iterate over bars, giving it the selected class if its in the extent range
+	    // Also keep track of min and max index (bar)
+	    bars.classed("selected", function(d) {
+	    	var selected = false;
+	    	if (extent[0] <= x(d.key) && x(d.key) + x.rangeBand() <= extent[1]) {
+	    		selected = true;
+	    		if (min_key == null || d.key < min_key) {
+	    			min_key = d.key;
+	    		}
+	    		if (max_key == null || d.key > max_key) {
+	    			max_key = d.key;
+	    		};
+	    	};
+	     	return selected; 
+	 	});
+
+	 	// console.log(min_key+" "+max_key);
+
+	 	d3.selectAll('.pin').classed('hidden', function  (d) {
+	 		var hour = d.date_time.getHours();
+	 		return !(hour >= min_key && hour <= max_key);
+	 	})
+
+	    // Calculate and show total selected
 	    makeSum();
+
+	    // days[extent]
 	  }
 
 	  function brushend() {
 	    chart.classed("selecting", !d3.event.target.empty());
+	    // d3.selectAll('.pin').classed("hidden", false); //show all pins for the day
 	  }    
 
 	  function makeSum() {
-	    var sumDiv = d3.select('#sum'),
-	        extent = brush.extent(),
+	    var extent = brush.extent(),
 	        sum = 0;
 	    
 	    data.forEach(function(d) {
