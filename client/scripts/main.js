@@ -17,17 +17,23 @@ Session.set("days_loaded", 0);
 Session.set("all_data_loaded", false);
 
 // var how_many = days.length - 19;
-var how_many = 5;
+var how_many = 1;
 
 var svg = d3.select("svg#map");
 for (var i = 0; i < how_many; i++) {
 	Meteor.call("get_day", days[i], i, function  (error, result) {
 		console.log(result[0].length);
+		console.log("day_index: "+result[1]);
+
 
 		var day_index = result[1];
-		console.log("day_index: "+result[1]);
 		all_data.push(result[0]);
+
+		Template.dateline.add_daychart(result[0], result[1]);
+
+		// Plot nodes and generate daychart
 		Template.map.plot_nodes(result[0], mongoId, result[1]);
+
 		Session.set("days_loaded", Session.get("days_loaded")+1);
 	})
 };

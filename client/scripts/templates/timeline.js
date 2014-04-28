@@ -12,7 +12,7 @@ Template.timeline.helpers({
 	}	
 });
 
-Template.timeline.draw = function() { 
+Template.timeline.draw = function(day_index) { 
 	// Timeline
 	// var svg = d3.select("#timeline_container").append("svg")
 	// 	.attr("id", "timeline_chart")
@@ -20,15 +20,9 @@ Template.timeline.draw = function() {
 	//     .attr("height", timeline_height);
 
 	// var data = oneDayBlogs(Session.get("day_start")).fetch();
-	console.log(day_data);
-	var main_data = day_data;
-	var cross = crossfilter(main_data);
-	var hours_dimension = cross.dimension(function (d) { return d.date_time.getHours() });
 
-	var hours_group = hours_dimension.group().reduceCount();
-
-	// Grouped data, where each object is of the form {key: <>, value: >}, key being hour of day and value being sum blogs
-	var data = hours_group.all();
+	var data = daychart_data[day_index];
+	console.log(data);
 
 	// console.log(hours_group.size());
 	// console.log(hours_group.all());

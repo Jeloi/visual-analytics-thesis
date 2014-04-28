@@ -58,7 +58,7 @@ Template.map.plot_nodes = function (data, key, day_index) {
 		    })
 
 			// Call Timeline method
-			Template.timeline.draw();	    
+			Template.timeline.draw(day_index);	    
     	};
 
     // });
