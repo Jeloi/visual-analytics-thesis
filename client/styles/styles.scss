@@ -1,6 +1,12 @@
 // Import bootstrap
 // @import 'packages/bootstrap3-sass/bootstrap';
 
+body {
+	font: 14px helvetica;
+	color: #f0f0f0;
+	background-color: #333;
+}
+
 //Grids
 #col_left {
 	width: 1200px;
@@ -11,11 +17,43 @@
 	vertical-align: top;
 }
 
+// Timeline
+#timeline_container {
+	height: 130px;
+	.bar {
+	  fill: #5EB4E3;
+	}
+	.selected {
+	  fill: #78C656;
+	}
+	.extent {
+	  fill: white;
+	  fill-opacity: .125;
+	  stroke: #fff;
+	}
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #f0f0f0;
+	  shape-rendering: crispEdges;
+	}
 
-// Map Styles
+	.axis text {
+	  fill: #f0f0f0;
+	  font-size: 11px;
+	}
+}
+
+
+// Map Styles Styles
 svg#map {
 	background: url("images/Vastopolis_Map.png");
 	background-size: cover;
+	.extent {
+	  fill: #61F28F;
+	  fill-opacity: .125;
+	  stroke: #fff;
+	}
 }
 .pin {
 	fill: #F2465A;
@@ -28,11 +66,7 @@ svg#map {
 }
 
 
-.extent {
-  fill: #61F28F;
-  fill-opacity: .125;
-  stroke: #fff;
-}
+
 
 .overlay {
 	fill: none;

@@ -17,14 +17,17 @@ Template.map.plot_nodes = function () {
 
     console.log(Session.get("day_index"));
     d3.csv('csvs/day-'+Session.get("day_index")+'.csv', function(data) {
-    	
+    	console.log(data[0]);
     	// Coerce the data into its proper form
     	data.forEach(function (d) {
+    		// console.log(d);
     		d.date_time = d3.time.format.iso.parse(d.date_time);
     		d._id = d._id.replace(/ObjectID\(|\)/g, "");
     		// d.longitude = +d.longitude;
     		// d.latitude = +d.latitude;
     	});
+    	console.log(data[0]);
+
 
     	day_data = data;
     	var svg = d3.select("svg#map");
@@ -47,6 +50,9 @@ Template.map.plot_nodes = function () {
 	    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
 	    	this.parentNode.appendChild(this);
 	    })
+
+		// Call Timeline method
+		Template.timeline.draw();	    
 
     });
 }
@@ -109,7 +115,7 @@ Template.map.rendered = function () {
 				return Template.map.y_scale(d[0]);
 			},
 			"fill": "none",
-			"stroke-width": 4,
+			"stroke-width": 2,
 			"stroke-opacity": 0.8,
 			"stroke": "#F5F590"
 		});
