@@ -41,8 +41,20 @@ Meteor.methods({
 
 	},
 	dev_addHoursField: function(arg) {
-		// var find_result = Microblogs.findOne({_id: arg});
-		// console.log(find_result);
-		console.log(Microblogs.findOne({}));
+		console.log(start_date_time);
+		for (var i = 0; i < 504; i++) {
+			console.log("i: "+i);
+			var start_time = hourToDate(i);
+			console.log(start_time);
+			console.log(Microblogs.update({date_time: {$gte: start_time, $lt: oneHourFrom(start_time)}}, {$set: {hour_index: i}}, {multi: true})
+			);
+		};
+		// var cursor = Microblogs.find();
+		// cursor.forEach(function (doc) {
+		// 	var date = Date(doc.date_time);
+		// 	console.log(date);
+		// 	Microblogs.update({_id : doc._id}, {$set: {hour_index: dateToHour(date)}});
+		// });
+		console.log("finished!");
 	}
 });

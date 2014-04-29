@@ -17,7 +17,7 @@ Session.set("days_loaded", 0);
 Session.set("all_data_loaded", false);
 
 // var how_many = days.length - 19;
-total_days = 3;
+total_days = 1;
 
 var svg = d3.select("svg#map");
 svg.classed("hidden", true);

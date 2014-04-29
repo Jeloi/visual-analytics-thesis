@@ -8,6 +8,10 @@ Meteor.methods({
 	get_all: function () {
 		return Microblogs.find().fetch();
 	},
+	get_hour: function  (time_start) {
+		console.log(oneHourBlogs(time_start).fetch());
+		return oneHourBlogs(time_start).fetch();
+	},
 	get_hour_binned_data: function() { 
 		var start_time = new Date(2011, 3, 30);
 		var end_time = new Date(2011, 4, 21);
