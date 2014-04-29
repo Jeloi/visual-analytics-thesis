@@ -40,7 +40,7 @@ Meteor.methods({
 		};
 
 	},
-	dev_clog: function(arg) {
+	dev_addHoursField: function(arg) {
 		// var find_result = Microblogs.findOne({_id: arg});
 		// console.log(find_result);
 		console.log(Microblogs.findOne({}));
