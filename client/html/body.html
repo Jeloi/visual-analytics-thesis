@@ -124,10 +124,12 @@
 
 <template name="loading">
 	<div id="loading_screen">
-		<div class="progress">
-		  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
-		    <span class="sr-only">60% Complete</span>
-		  </div>
+		<div id="loading_contents">
+			<div class="progress">
+			  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
+			  </div>
+			</div>
+			<div class="percentage">{{percentage}}% Loaded</div>
 		</div>
 	</div>
 </template>

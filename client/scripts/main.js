@@ -70,7 +70,7 @@ Deps.autorun(function () {
 Deps.autorun(function  () {
 	// Template.map.plot_nodes();
 	// Template.timeline.draw();
-	dayChange(); // the reactive source in the call to Template.map.remove_nodes() (Session.get("day_start")) makes this get called
+	// dayChange(); // the reactive source in the call to Template.map.remove_nodes() (Session.get("day_start")) makes this get called
 })
 
 

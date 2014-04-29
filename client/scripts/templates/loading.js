@@ -3,6 +3,6 @@ Template.loading.helpers({
 		return !Session.get("all_data_loaded");
 	},
 	percentage: function  () {
-		return (Session.get("hours_loaded")/num_hours)*100;
+		return Math.floor((Session.get("hours_loaded")/num_hours)*100);
 	}
 });

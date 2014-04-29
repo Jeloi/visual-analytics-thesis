@@ -18,6 +18,8 @@ for (var i = 0; i < num_hours; i++) {
 Deps.autorun(function () {
 	if (Session.get("hours_loaded") == num_hours) {
 		Session.set("all_data_loaded", true);
-		console.log("loaded all "+num_hours);		
+		console.log("loaded all "+num_hours);
+
+		$('#loading_screen').fadeOut('slow');
 	};
 });
