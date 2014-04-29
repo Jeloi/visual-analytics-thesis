@@ -4,12 +4,10 @@ Session.set("hours_loaded", 0);
 for (var i = 0; i < num_hours; i++) {
 	Meteor.call("get_hour", i, function  (error, result) {
 		console.log(result.length);
-		hour_counts.push(result.length);
-		hours_data.push(result);
+		var hour_index = Session.get("hours_loaded");
+		hour_counts.push({hour_index: hour_index, count: result.length});
+		hours_data.push({hour_index: hour_index, array: result});
 
-		// Template.dateline.add_daychart(result[0], result[1]);
-		// Plot nodes and generate daychart
-		// Template.map.plot_nodes(result[0], result[1]);
 		console.log(Session.get("hours_loaded"));
 		Session.set("hours_loaded", Session.get("hours_loaded")+1);
 	});
@@ -20,6 +18,7 @@ Deps.autorun(function () {
 		Session.set("all_data_loaded", true);
 		console.log("loaded all "+num_hours);
 
+		Template.context_timeline.update();
 		$('#loading_screen').fadeOut('slow');
 	};
 });
