@@ -22,23 +22,23 @@ total_days = 1;
 var svg = d3.select("svg#map");
 svg.classed("hidden", true);
 
-for (var i = 0; i < total_days; i++) {
-	Meteor.call("get_day", days[i], i, function  (error, result) {
-		console.log(result[0].length);
-		console.log("day_index: "+result[1]);
+// for (var i = 0; i < total_days; i++) {
+// 	Meteor.call("get_day", days[i], i, function  (error, result) {
+// 		console.log(result[0].length);
+// 		console.log("day_index: "+result[1]);
 
 
-		var day_index = result[1];
-		all_data.push(result[0]);
+// 		var day_index = result[1];
+// 		all_data.push(result[0]);
 
-		Template.dateline.add_daychart(result[0], result[1]);
+// 		Template.dateline.add_daychart(result[0], result[1]);
 
-		// Plot nodes and generate daychart
-		// Template.map.plot_nodes(result[0], result[1]);
+// 		// Plot nodes and generate daychart
+// 		// Template.map.plot_nodes(result[0], result[1]);
 
-		Session.set("days_loaded", Session.get("days_loaded")+1);
-	})
-};
+// 		Session.set("days_loaded", Session.get("days_loaded")+1);
+// 	})
+// };
 
 
 
