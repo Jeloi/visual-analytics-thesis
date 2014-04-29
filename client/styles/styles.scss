@@ -4,7 +4,7 @@
 $blue: #5EB4E3;
 
 body {
-	font: 14px helvetica;
+	font: 14px;
 	color: #f0f0f0;
 	background-color: #333;
 }
@@ -86,7 +86,7 @@ svg#map {
 }
 .pin {
 	fill: #F2465A;
-	fill-opacity: 0.9;
+	fill-opacity: 0.8;
 }
 
 .hospitals {
@@ -94,17 +94,17 @@ svg#map {
 	// stroke
 }
 
-
-
-
-.overlay {
-	fill: none;
-	pointer-events: all;
-}
-
 // View Options Styles
 .mousecoords {
 	span {
 		margin-left: 10px;
+	}
+}
+
+
+// Browse Blogs Modal
+.modal {
+	h4 {
+		color: black;
 	}
 }

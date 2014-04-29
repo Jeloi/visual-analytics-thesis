@@ -17,9 +17,11 @@ Session.set("days_loaded", 0);
 Session.set("all_data_loaded", false);
 
 // var how_many = days.length - 19;
-total_days = 3;
+total_days = 21;
 
 var svg = d3.select("svg#map");
+svg.classed("hidden", true);
+
 for (var i = 0; i < total_days; i++) {
 	Meteor.call("get_day", days[i], i, function  (error, result) {
 		console.log(result[0].length);
@@ -50,6 +52,7 @@ for (var i = 0; i < total_days; i++) {
 Deps.autorun(function () {
 	if (Session.get("days_loaded") == total_days) {
 		Session.set("all_data_loaded", true);
+		svg.classed("hidden", false);
 		console.log("loaded all "+total_days);		
 	};
 	// if (Session.get("day_start") != null) {

@@ -1,6 +1,7 @@
 {
   "packages": {
     "dc.js-package": {},
-    "npm": {}
+    "npm": {},
+    "bootstrap-3": {}
   }
 }
