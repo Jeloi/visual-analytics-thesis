@@ -18,7 +18,7 @@ Deps.autorun(function () {
 		Session.set("all_data_loaded", true);
 		console.log("loaded all "+num_hours);
 
-		Template.context_timeline.update();
+		Template.focus_context.update();
 		$('#loading_screen').fadeOut('slow');
 	};
 });
