@@ -3,9 +3,15 @@ Template.focus_context.update = function() {
 
 	var focusGraph;
 
+    // Intervals for Ticks
+    var interval6 = [0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 96, 102, 108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 222, 228, 234, 240, 246, 252, 258, 264, 270, 276, 282, 288, 294, 300, 306, 312, 318, 324, 330, 336, 342, 348, 354, 360, 366, 372, 378, 384, 390, 396, 402, 408, 414, 420, 426, 432, 438, 444, 450, 456, 462, 468, 474, 480, 486, 492, 498, 504],
+        interval12 = [0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144, 156, 168, 180, 192, 204, 216, 228, 240, 252, 264, 276, 288, 300, 312, 324, 336, 348, 360, 372, 384, 396, 408, 420, 432, 444, 456, 468, 480, 492, 504],
+        interval24 = [0, 24, 48, 72, 96, 120, 144, 168, 192, 216, 240, 264, 288, 312, 336, 360, 384, 408, 432, 456, 480, 504];
+    var full_interval = rangeArray(0,504);
+
 	// Context
-	var margin = {top: 140, right: 10, bottom: 0, left: 50},
-	    margin2 = {top: 10, right: 0, bottom: 20, left: 50},//{top: 430, right: 10, bottom: 20, left: 40},
+	var margin = {top: 140, right: 50, bottom: 0, left: 50},
+	    margin2 = {top: 10, right: 50, bottom: 20, left: 50},//{top: 430, right: 10, bottom: 20, left: 40},
 	    width = map_width - margin.left - margin.right,
 	    height =  100, // height of focus
 	    height2 = 100; // height of context
@@ -13,7 +19,9 @@ Template.focus_context.update = function() {
 	var x2 = d3.scale.linear().range([0, width]),
 	    y2 = d3.scale.linear().range([height2, 0]);
 
-	var xAxis2 = d3.svg.axis().scale(x2).orient("bottom");
+	var xAxis2 = d3.svg.axis().scale(x2).orient("bottom")
+        .tickValues(interval24).tickFormat(tick_formatter);
+    var yAxis2 = d3.svg.axis().scale(y2).orient("left").ticks(0);
 
    	var brush = d3.svg.brush()
    	    .x(x2)
@@ -56,6 +64,10 @@ Template.focus_context.update = function() {
         .call(xAxis2);
 
         context.append("g")
+        .attr("class", "y axis")
+        .call(yAxis2);
+
+        context.append("g")
         .attr("class", "x brush")
         .call(brush)
         .selectAll("rect")
@@ -69,14 +81,14 @@ Template.focus_context.update = function() {
         .attr('class', 'focus')
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var x = d3.scale.ordinal().rangeRoundBands([0, width], .1),
+    var x = d3.scale.linear().range([0, width]),
         y = d3.scale.linear().range([height, 0]);
 
-	    x.domain(data.map(function(d) { return d.hour_index; }));
+	    x.domain(x2.domain());
 	    y.domain([0, d3.max(data.map(function(d) { return d.count; }))]);
 
-    var xAxis = d3.svg.axis().scale(x).orient("bottom");
-    var yAxis = d3.svg.axis().scale(y).orient("left").ticks(8);
+    var xAxis = d3.svg.axis().scale(x).orient("bottom").tickValues(interval24).tickFormat(tick_formatter);
+    var yAxis = d3.svg.axis().scale(y).orient("left").ticks(3);
 
     var barsGroup = focus.append("g")
         .attr('clip-path', 'url(#clip)');
@@ -96,7 +108,7 @@ Template.focus_context.update = function() {
           	.attr('class', 'bar')
             .attr("x", function(d, i) { return x(d.hour_index); })
             .attr("y", function(d) { return y(d.count); })
-            .attr("width", x.rangeBand())
+            .attr("width", (map_width*0.4)/num_hours)
             .attr("height", function(d) { return height - y(d.count); });
 
         // focus.selectAll(".bar")
@@ -108,8 +120,26 @@ Template.focus_context.update = function() {
         //     .attr("y", function(d) { return y(d.count); })
         //     .attr("height", function(d) { return height - y(d.count); });
 
-
-
+    // Returns a date 5/1 or the am/pm hour of the day, given an hour_index
+    function tick_formatter (d) {
+        console.log(d);
+        if (d % 24 == 0) {
+            var date = hourToDate(d);
+            return (date.getMonth()+1)+"/"+date.getDate();
+        } else {
+            var mil = d%24;
+            if (mil > 12) {
+                return (mil%12)+"pm";
+            } else if (mil == 12) {
+                return "12pm";
+            }
+            else {
+                return mil+"am";
+            }
+            // return (d%24)+":00";
+            // return d;
+        };
+    }
 
 
 
@@ -117,9 +147,10 @@ Template.focus_context.update = function() {
     function brushmove() {
 
 	    var extent = brush.extent();
-		var min_hour = Math.floor(extent[0]), max_hour = Math.floor(extent[1]);
+		var min_hour = Math.floor(extent[0]+1), max_hour = Math.floor(extent[1]);
 
-        // Set the session variables to the proper range being displayed
+
+        // Set the session variables to the range being displayed
         if (brush.empty()) {
             Session.set("brush_start", Session.get("date_start"));
             Session.set("brush_end", Session.get("date_end"));
@@ -128,13 +159,31 @@ Template.focus_context.update = function() {
             Session.set("brush_end", hourToDate(max_hour+1));
         }
 
-        console.log(Session.get("brush_start"));
-        console.log(Session.get("brush_end"));
 
 		// Implement focus by changing its scale's domain
-		x.domain(brush.empty() ? x2.domain() : rangeArray(min_hour, max_hour));
+		// x.domain(brush.empty() ? x2.domain() : rangeArray(min_hour, max_hour));
+        x.domain(brush.empty() ? x2.domain() : brush.extent());
         focusGraph.attr("x", function(d, i) { return x(d.hour_index); });
-		focusGraph.attr("width", x.rangeBand() );
+
+        // Calculate bar widths responsively
+        var diff = Math.ceil(extent[1]) - Math.floor(extent[0]+1);
+        var bar_width = (map_width*0.4)/diff;
+        bar_width = (diff == 0) ? (map_width*0.4)/num_hours : bar_width;
+
+        // Calculate tick interval to use based on the diff
+        if (diff > 100 || brush.empty()) {
+            xAxis.tickValues(interval24);
+        } else if (diff > 72) {
+            xAxis.tickValues(interval12);
+        } 
+        else if (diff > 12) {
+            xAxis.tickValues(interval6);
+        } 
+        else {
+            xAxis.tickValues(full_interval);
+        }
+        // Update bar widths and x-axis
+		focusGraph.attr("width", bar_width );
 		focus.select(".x.axis").call(xAxis);
 
 
