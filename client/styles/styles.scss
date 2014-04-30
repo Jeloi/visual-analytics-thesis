@@ -78,6 +78,16 @@ h1,h2,h3,h4,h5,h6 {
 svg#map {
 	background: url("images/Vastopolis_Map.png");
 	background-size: cover;
+
+	g.hour_group {
+		display: none;
+		visibility: hidden;
+	}
+	g.showing {
+		display: inherit !important;
+		visibility: visible !important;
+	}
+
 	.extent {
 	  fill: #61F28F;
 	  fill-opacity: .125;
@@ -121,5 +131,30 @@ svg#map {
 .modal {
 	h4 {
 		color: black;
+	}
+}
+
+.context {
+	.area {
+	  fill: $blue;
+	}
+	.selected {
+	  fill: #78C656;
+	}
+	.extent {
+	  fill: white;
+	  fill-opacity: .125;
+	  stroke: #fff;
+	}
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #f0f0f0;
+	  shape-rendering: crispEdges;
+	}
+
+	.axis text {
+	  fill: #f0f0f0;
+	  font-size: 11px;
 	}
 }

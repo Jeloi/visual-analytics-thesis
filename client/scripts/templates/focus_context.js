@@ -2,13 +2,13 @@ Template.focus_context.update = function() {
 	data = hour_counts;
 
 	var margin = {top: 10, right: 10, bottom: 100, left: 40},
-	    margin2 = {top: 430, right: 10, bottom: 20, left: 40},
+	    margin2 = {top: 0, right: 0, bottom: 0, left: 0},//{top: 430, right: 10, bottom: 20, left: 40},
 	    width = map_width - margin.left - margin.right,
 	    height =  500 - margin.top - margin.bottom, // height of focus
-	    height2 = 500 - margin2.top - margin2.bottom; // height of context
+	    height2 = 100; // height of context
 
-	var x = d3.time.scale().range([0, width]),
-	    x2 = d3.time.scale().range([0, width]),
+	var x = d3.scale.linear().range([0, width]),
+	    x2 = d3.scale.linear().range([0, width]),
 	    y = d3.scale.linear().range([height, 0]),
 	    y2 = d3.scale.linear().range([height2, 0]);
 
@@ -18,7 +18,8 @@ Template.focus_context.update = function() {
 
    	var brush = d3.svg.brush()
    	    .x(x2)
-   	    .on("brush", brushed);
+   	    .on('brushstart', brushstart)
+   	    .on("brush", brushmove);
 
    	var area = d3.svg.area()
    	    .interpolate("monotone")
@@ -55,19 +56,19 @@ Template.focus_context.update = function() {
         x2.domain(x.domain());
         y2.domain(y.domain());
 
-        // focus.append("path")
-        // .datum(data)
-        // .attr("class", "area")
-        // .attr("d", area);
+        focus.append("path")
+        .datum(data)
+        .attr("class", "area")
+        .attr("d", area);
 
-        // focus.append("g")
-        // .attr("class", "x axis")
-        // .attr("transform", "translate(0," + height + ")")
-        // .call(xAxis);
+        focus.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
 
-        // focus.append("g")
-        // .attr("class", "y axis")
-        // .call(yAxis);
+        focus.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
 
         context.append("path")
         .datum(data)
@@ -86,10 +87,36 @@ Template.focus_context.update = function() {
         .attr("y", -6)
         .attr("height", height2 + 7);
 
-    function brushed() {
-      x.domain(brush.empty() ? x2.domain() : brush.extent());
-      focus.select(".area").attr("d", area);
-      focus.select(".x.axis").call(xAxis);
+    function brushmove() {
+
+	    var extent = brush.extent();
+    	d3.selectAll("svg#map g.hour_group.showing").classed("showing", false);
+		
+
+		// Implement focus by changing its scale's domain
+	    x.domain(brush.empty() ? x2.domain() : brush.extent());
+	    focus.select(".area").attr("d", area);
+	    focus.select(".x.axis").call(xAxis);
+
+		// bars.classed("selected", function(d) { return extent[0] <= x(d.x) && x(d.x) + x.rangeBand() <= extent[1]; });
+
+		var min_hour = Math.floor(extent[0]), max_hour = Math.floor(extent[1]);
+
+		for (var i = min_hour; i <= max_hour; i++) {
+			d3.select("svg#map g#hour-"+i).classed("showing", true);
+		}
+		// d3.selectAll("svg#map g.hour_group").classed('hidden', function() { 
+		// 	var hour = this.getAttribute("data-hour");
+		// 	if (hour >= min_hour && hour <= max_hour){
+		// 		// console.log(hour);
+		// 		return false;
+		// 	} else {
+		// 		return true;
+		// 	}
+		// });
+    }
+
+    function brushstart () {
     }
 
 }

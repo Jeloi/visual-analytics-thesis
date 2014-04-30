@@ -85,6 +85,47 @@ Template.map.brush = function () {
 	console.log("called brush!");
 }
 
+
+Template.map.plot_pins = function (data, hour_index) {
+	console.log("inside plot_nodes");
+
+    var svg = d3.select("svg#map");
+
+    	var g = svg.select('g#hour-'+hour_index).classed("hidden", function() { 
+	    		return !(hour_index == Session.get("hour_index"));
+    	});
+
+    	// console.log(data.length);
+    	var pins = g.selectAll(".pin").data(data, mongoId).enter().append("circle")
+	    	.attr("class", "pin")
+	    	.attr("r", 2)
+	    	.attr('cx', function(d) {
+	    		return Template.map.x_scale(d.longitude);
+	    	})
+	    	.attr('cy', function(d){
+	    		return Template.map.y_scale(d.latitude);
+	    	});
+
+	    	g.classed("hidden", function() { 
+	    		return !(hour_index == Session.get("hour_index"));
+	    	})
+
+   //  	if (day_index == Session.get("day_index")) {
+	  //   	// Call brushing method
+		 //    Template.map.brush();
+
+		 //    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
+		 //    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
+		 //    	this.parentNode.appendChild(this);
+		 //    })
+
+			// // Call Timeline method
+			// Template.timeline.draw(day_index);	    
+   //  	};
+
+    // });
+}
+
 Template.map.rendered = function () {
 
 	// Append the svg
@@ -94,8 +135,9 @@ Template.map.rendered = function () {
         .attr("width", map_width)
         .attr("height", map_height);
 
-    for (var i = 0; i < days.length; i++) {
-    	svg.append('g').attr('id', 'day-'+i);
+    // For all hours
+    for (var i = 0; i < num_hours; i++) {
+    	svg.append('g').attr('id', 'hour-'+i).attr('class', 'hour_group').attr('data-hour', i);;;
     };
 
 	// Map color
@@ -112,7 +154,6 @@ Template.map.rendered = function () {
 	});
 
 	// Hospitals
-
 	svg.selectAll(".hospitals")
 		.data(hospital_coords)
 		.enter().append("circle")

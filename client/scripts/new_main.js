@@ -1,5 +1,6 @@
 Session.set("hours_loaded", 0);
 
+// Initial Load
 // Populate hours_data with the datapoints binned by hour
 for (var i = 0; i < num_hours; i++) {
 	Meteor.call("get_hour", i, function  (error, result) {
@@ -8,8 +9,15 @@ for (var i = 0; i < num_hours; i++) {
 		hour_counts.push({hour_index: hour_index, count: result.length});
 		hours_data.push({hour_index: hour_index, array: result});
 
+		// Template.map.plot_pins(result, hour_index);
+
 		console.log(Session.get("hours_loaded"));
 		Session.set("hours_loaded", Session.get("hours_loaded")+1);
+
+		// Update loading bar
+		var percentage = Template.loading.percentage()+'%';
+		d3.select('#loading_contents .progress-bar').style('width', percentage);
+		d3.select('#loading_contents .percentage').text(percentage+" Loaded");
 	});
 };
 
