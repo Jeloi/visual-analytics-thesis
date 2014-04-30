@@ -185,3 +185,12 @@ Template.map.rendered = function () {
 
 }
 
+Template.map.helpers({
+	date_start: function () {
+		return prettyDate(Session.get("brush_start"));
+	}, 
+	date_end: function() { 
+		return prettyDate(Session.get("brush_end"));
+	}
+});
+

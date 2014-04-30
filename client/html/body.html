@@ -4,33 +4,41 @@
 </head>
 
 <body>
+	{{> loading}}
 	<table class="">
-<tr>
-	<td id="col_left">
-		<div class="main" id="map_container">
-			{{> map}}
-			{{> loading}}
-		</div>
-		{{> focus_context}}
-	</td>
-	
-	<td id="col_right">
-		<h2 id="title">Geovisual Microblog Analytics</h2>
-		{{> view_options}}
-	</td>
-	{{> browse_blogs}}
-</tr>
+		<tr>
+			<td id="col_left">
+				<div class="main" id="map_container">
+					{{> map}}
+				</div>
+				{{> focus_context}}
+			</td>
+			
+			<td id="col_right">
+				<h2 id="title">Geovisual Microblog Analytics</h2>
+				{{> view_options}}
+			</td>
+			{{> browse_blogs}}
+		</tr>
 
 	</table>
 </body>
 
 <!-- Templates -->
 <template name="map">
+<div id="date_range">{{date_start}} - {{date_end}}</div>
 	
 </template>
 
 <template name="focus_context">
+	<div id="timeline_controls">
+		
+	</div>
 	<div id="focus_context"></div>
+</template>
+
+<template name="timeline_bars">
+	
 </template>
 
 <template name="timeline">

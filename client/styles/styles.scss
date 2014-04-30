@@ -158,3 +158,25 @@ svg#map {
 	  font-size: 11px;
 	}
 }
+
+.focus {
+	.bar {
+		fill: #A6A0CF;
+	}
+}
+
+#map_container {
+	position: relative;
+}
+
+// Date Range
+#date_range {
+	position: absolute;
+	width: 340px;
+	left: 50%;
+	bottom: 0;
+	line-height: 2em;
+	background: rgba(51, 51, 51, 0.58);
+	margin-left: -170px;
+	text-align: center;
+}
