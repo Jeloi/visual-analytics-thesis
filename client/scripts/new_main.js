@@ -21,8 +21,8 @@ for (var i = 0; i < num_hours; i++) {
 	});
 };
 
-Session.set("date_start", hourToDate(0));
-Session.set("date_end", hourToDate(num_hours));
+Session.set("date_start", 0);
+Session.set("date_end", num_hours);
 Session.set("brush_start", Session.get("date_start"));
 Session.set("brush_end", Session.get("date_end"));
 
@@ -31,7 +31,7 @@ Deps.autorun(function () {
 		Session.set("all_data_loaded", true);
 		console.log("loaded all "+num_hours);
 
-		Template.focus_context.update();
+		Template.focus_context.draw();
 		$('#loading_screen').fadeOut('slow');
 	};
 });

@@ -1,4 +1,4 @@
-Template.focus_context.update = function() { 
+Template.focus_context.draw = function() { 
 	data = hour_counts;
 
 	var focusGraph;
@@ -153,12 +153,10 @@ Template.focus_context.update = function() {
     }
 
 
-
-
     function brushmove() {
 
 	    var extent = brush.extent();
-		var min_hour = Math.floor(extent[0]+1), max_hour = Math.floor(extent[1]);
+		var min_hour = Math.floor(extent[0]+1), max_hour = Math.floor(extent[1]-0.01);
 
 
         // Set the session variables to the range being displayed
@@ -166,8 +164,8 @@ Template.focus_context.update = function() {
             Session.set("brush_start", Session.get("date_start"));
             Session.set("brush_end", Session.get("date_end"));
         } else {
-            Session.set("brush_start", hourToDate(min_hour));
-            Session.set("brush_end", hourToDate(max_hour+1));
+            Session.set("brush_start", min_hour);
+            Session.set("brush_end", max_hour+1);
         }
 
 
@@ -206,15 +204,6 @@ Template.focus_context.update = function() {
 		for (var i = min_hour; i <= max_hour; i++) {
 			d3.select("svg#map g#hour-"+i).classed("showing", true);
 		}
-		// d3.selectAll("svg#map g.hour_group").classed('hidden', function() { 
-		// 	var hour = this.getAttribute("data-hour");
-		// 	if (hour >= min_hour && hour <= max_hour){
-		// 		// console.log(hour);
-		// 		return false;
-		// 	} else {
-		// 		return true;
-		// 	}
-		// });
     }
 
     function brushstart () {
