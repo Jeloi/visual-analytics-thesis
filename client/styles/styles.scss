@@ -76,7 +76,7 @@ h1,h2,h3,h4,h5,h6 {
 
 // Map Styles Styles
 svg#map {
-	background: url("images/Vastopolis_Map.png");
+	background: url("/images/Vastopolis_Map.png");
 	background-size: cover;
 
 	g.hour_group {
@@ -162,7 +162,11 @@ svg#map {
 .focus {
 	.bar {
 		fill: #A6A0CF;
+		&:hover {
+			fill: #FFEC6F;
+		}
 	}
+
 }
 
 #map_container {

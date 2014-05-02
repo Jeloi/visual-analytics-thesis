@@ -102,6 +102,13 @@ Template.focus_context.update = function() {
             .attr("class", "y axis")
             .call(yAxis);
 
+        /* Initialize tooltip */
+        tip = d3.tip().offset([-10,0]).attr('class', 'd3-tip').html(function(d) { return "<span class='yellow'>"+d.count+"</span> blogs<br><span class='date'>"+tip_date(d.hour_index)+"</span>"; });
+
+        /* Invoke the tip in the context of your visualization */
+        focus.call(tip)
+
+        /*Make bars of bar chart*/
         focusGraph = barsGroup.selectAll("rect")
             .data(data)
           .enter().append("rect")
@@ -109,20 +116,24 @@ Template.focus_context.update = function() {
             .attr("x", function(d, i) { return x(d.hour_index); })
             .attr("y", function(d) { return y(d.count); })
             .attr("width", (map_width*0.4)/num_hours)
-            .attr("height", function(d) { return height - y(d.count); });
+            .attr("height", function(d) { return height - y(d.count); })
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
 
-        // focus.selectAll(".bar")
-        //     .data(data)
-        //     .enter().append("rect")
-        //     .attr("class", "bar")
-        //     .attr("x", function(d) { return x(d.hour_index); })
-        //     .attr("width", x.rangeBand())
-        //     .attr("y", function(d) { return y(d.count); })
-        //     .attr("height", function(d) { return height - y(d.count); });
+            $(function ()    
+            	{ $('#example').tooltip();
+            });  
+
+    // Returns a date and time formatted for the tip date
+    function tip_date (hour_index) {
+    	var date = hourToDate(hour_index);
+    	return date.getMonth()+"/"+date.getDate()+" "+date.getHours()+":00";
+    } 
+
 
     // Returns a date 5/1 or the am/pm hour of the day, given an hour_index
     function tick_formatter (d) {
-        console.log(d);
+        // console.log(d);
         if (d % 24 == 0) {
             var date = hourToDate(d);
             return (date.getMonth()+1)+"/"+date.getDate();
