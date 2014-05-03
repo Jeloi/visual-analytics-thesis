@@ -264,6 +264,7 @@ Template.focus_context.explore_section = function  () {
 
 		if (focus_brush.empty()) {
 			d3.selectAll("#nodes g").classed('showing', false);
+			focus.selectAll("rect.selected").classed('selected', false);
 		} else {
 
 			var old_min_hour = Session.get("old_min_hour"),
@@ -312,7 +313,7 @@ Template.focus_context.explore_section = function  () {
 			};
 
 		};
-		
+
 		Session.set("old_min_hour", min_hour);
 		Session.set("old_max_hour", max_hour);
 
