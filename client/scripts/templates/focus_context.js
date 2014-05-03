@@ -171,7 +171,7 @@ Template.focus_context.draw = function() {
             Session.set("brush_start", Session.get("date_start"));
             Session.set("brush_end", Session.get("date_end"));
         } else {
-            Session.set("brush_start", min_hour);
+            Session.set("brush_start", min_hour-1);
             Session.set("brush_end", max_hour+1);
         }
 
@@ -215,19 +215,21 @@ Template.focus_context.draw = function() {
     }
 
     function context_brushstart () {
-    	if (Session.get("explore_section")) {
+    	// if (Session.get("explore_section")) {
     		Session.set("explore_section", false);
     		console.log("got here!");
     		d3.selectAll('svg#map g#nodes g.hour_group').remove();
     		d3.select('g#focus g#focus_brush').remove();
     		focus.selectAll('rect.selected').classed('selected', false);
     		context.select('rect.extent').classed('explored', false);
-    	};
+    	// };
     }
 }
 
 
-Template.focus_context.explore_section = function  () {
+Template.focus_context.explore_section = function  (start_hour, end_hour) {
+	console.log(start_hour);
+	console.log(end_hour);
 	Session.set("explore_section", true);
 	Template.map.plot_brushed("all_nodes");
 	console.log("got here!");
@@ -254,6 +256,8 @@ Template.focus_context.explore_section = function  () {
 
 
     function focus_brushmove() {
+    	console.log(start_hour);
+    	console.log(end_hour);
 		var extent = d3.event.target.extent();
 		var x = Template.focus_context.x;
 
@@ -263,8 +267,12 @@ Template.focus_context.explore_section = function  () {
 
 
 		if (focus_brush.empty()) {
+			console.log("focus is empty!");
 			d3.selectAll("#nodes g").classed('showing', false);
 			focus.selectAll("rect.selected").classed('selected', false);
+			Session.set("brush_start", start_hour);
+			Session.set("brush_end", end_hour);
+			Session.set("old_min_hour", -1);
 		} else {
 
 			var old_min_hour = Session.get("old_min_hour"),
@@ -299,10 +307,12 @@ Template.focus_context.explore_section = function  () {
 				}
 
 				// Remove range actions
-				for (var i = remove_min; i <= remove_max; i++) {
-					focus.select("rect[data-hour='"+i+"']").classed('selected', false);
-					d3.selectAll("#nodes g[data-hour='"+i+"']").classed('showing', false);
-				};
+				// if (Session.get("old_min_hour") == -1) {
+					for (var i = remove_min; i <= remove_max; i++) {
+						focus.select("rect[data-hour='"+i+"']").classed('selected', false);
+						d3.selectAll("#nodes g[data-hour='"+i+"']").classed('showing', false);
+					};
+				// };
 
 				// Add range actions
 				for (var i = add_min; i <= add_max; i++) {
@@ -312,10 +322,17 @@ Template.focus_context.explore_section = function  () {
 
 			};
 
+			Session.set("brush_start", min_hour);
+			Session.set("brush_end", max_hour);
+
+			Session.set("old_min_hour", min_hour);
+			Session.set("old_max_hour", max_hour);
+
 		};
 
-		Session.set("old_min_hour", min_hour);
-		Session.set("old_max_hour", max_hour);
+
+
+
 
 
 

@@ -20,11 +20,24 @@ Template.view_options.events({
 		}
 	},
 	'click button#explore_section': function (p) {
-		Template.focus_context.explore_section();
-		console.log("clicked");
+		if (Session.get("explore_section") == false) {
+			Template.focus_context.explore_section(Session.get("brush_start"), Session.get("brush_end"));
+			console.log("clicked");
+		};
 	}
 });
 
 Template.view_options.helpers({
-
+	selected_count: function  () {
+		if (Session.get("all_data_loaded")) {
+			var date_end = (Session.get("date_end")-1);
+			var start = Session.get("brush_start");
+			var end = (Session.get("brush_end") != Session.get("date_end") ? Session.get("brush_end") : date_end);
+			var sum = 0;
+			for (var i = start; i <= end; i++) {
+				sum += hours_data[i].length;
+			}
+			return sum;
+		}
+	}
 });

@@ -30,15 +30,12 @@
 	
 </template>
 
+
 <template name="focus_context">
 	<div id="timeline_controls">
 		
 	</div>
 	<div id="focus_context"></div>
-</template>
-
-<template name="timeline_bars">
-	
 </template>
 
 <template name="timeline">
@@ -91,6 +88,10 @@
 <!-- 	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#browse">
 	  Browse Microblogs
 	</button> -->
+
+	<div class="section">
+		Selected: <span class="yellow">{{selected_count}}</span>
+	</div>
 
 	<button class="btn btn-primary" id="explore_section" data-toggle="button">Explore Section</button>
 
