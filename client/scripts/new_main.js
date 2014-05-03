@@ -7,7 +7,8 @@ for (var i = 0; i < num_hours; i++) {
 		// console.log(result.length);
 		var hour_index = Session.get("hours_loaded");
 		hour_counts.push({hour_index: hour_index, count: result.length});
-		hours_data.push({hour_index: hour_index, array: result});
+		// hours_data.push({hour_index: hour_index, array: result});
+		hours_data[hour_index] = result;
 
 		// Template.map.plot_pins(result, hour_index);
 

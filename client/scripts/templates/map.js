@@ -8,6 +8,36 @@ Template.map.y_scale = d3.scale.linear()
 		.domain([latitude_1, latitude_2])
 		.range([0, map_height]);
 
+Template.map.plot_brushed = function(search_id) {
+		console.log("inside plot_brushed");
+	    var svg = d3.select("svg#map");
+
+	    var start = Session.get("brush_start"),
+	    	end = Session.get("brush_end");
+
+	    // Append a group to the relevant hour, for this subset (or full set) of data	
+	    for (var i = start; i < end; i++) {
+	    	// var g = svg.select("g[data-hour='"+i+"']").attr('class', 'brushed').append('g').attr('data-group', search_id);
+	    	var g = svg.select('#nodes').append('g')
+	    		.attr({
+	    			'data-group': search_id,
+	    			'data-hour': i,
+	    			'class': 'hour_group showing'
+	    		});
+
+	    	g.selectAll(".pin").data(hours_data[i], mongoId).enter().append('circle')
+		    	.attr("class", "pin")
+		    	.attr("r", 2)
+		    	.attr('cx', function(d) {
+		    		return Template.map.x_scale(d.longitude);
+		    	})
+		    	.attr('cy', function(d){
+		    		return Template.map.y_scale(d.latitude);
+		    	});
+	    };
+
+}
+
 Template.map.plot_nodes = function (data, day_index) {
 	console.log("inside plot_nodes");
 
@@ -135,10 +165,13 @@ Template.map.rendered = function () {
         .attr("width", map_width)
         .attr("height", map_height);
 
+    var nodes = svg.append('g').attr('id', 'nodes');
+
     // For all hours
-    for (var i = 0; i < num_hours; i++) {
-    	svg.append('g').attr('id', 'hour-'+i).attr('class', 'hour_group').attr('data-hour', i);;;
-    };
+    // for (var i = 0; i < num_hours; i++) {
+    // 	nodes.append('g').attr('id', 'hour-'+i).attr('class', 'hour_group').attr('data-hour', i);;;
+    // };
+
 
 	// Map color
 	$(".map_color").on('click', 'button', function(event) {
@@ -154,7 +187,7 @@ Template.map.rendered = function () {
 	});
 
 	// Hospitals
-	svg.selectAll(".hospitals")
+	svg.append('g').attr('id', 'hospitals').selectAll(".hospitals")
 		.data(hospital_coords)
 		.enter().append("circle")
 		.attr({

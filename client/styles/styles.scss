@@ -1,7 +1,7 @@
 // Import bootstrap
 // @import 'packages/bootstrap3-sass/bootstrap';
 
-$blue: #5EB4E3;
+@import '.style_modules/colors';
 
 body {
 	font: 14px;
@@ -145,6 +145,9 @@ svg#map {
 	  fill: white;
 	  fill-opacity: .125;
 	  stroke: #fff;
+	  .explored {
+	  	stroke: $yellow;
+	  }
 	}
 	.axis path,
 	.axis line {

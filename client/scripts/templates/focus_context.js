@@ -23,10 +23,10 @@ Template.focus_context.draw = function() {
         .tickValues(interval24).tickFormat(tick_formatter);
     var yAxis2 = d3.svg.axis().scale(y2).orient("left").ticks(0);
 
-   	var brush = d3.svg.brush()
+   	var context_brush = d3.svg.brush()
    	    .x(x2)
-   	    .on('brushstart', brushstart)
-   	    .on("brush", brushmove);
+   	    .on('brushstart', context_brushstart)
+   	    .on("brush", context_brushmove);
 
    	var area2 = d3.svg.area()
    	    .interpolate("monotone")
@@ -68,8 +68,8 @@ Template.focus_context.draw = function() {
         .call(yAxis2);
 
         context.append("g")
-        .attr("class", "x brush")
-        .call(brush)
+        .attr("class", "context_brush")
+        .call(context_brush)
         .selectAll("rect")
         .attr("y", -6)
         .attr("height", height2 + 7);
@@ -153,14 +153,14 @@ Template.focus_context.draw = function() {
     }
 
 
-    function brushmove() {
+    function context_brushmove() {
 
-	    var extent = brush.extent();
+	    var extent = context_brush.extent();
 		var min_hour = Math.floor(extent[0]+1), max_hour = Math.floor(extent[1]-0.01);
 
 
         // Set the session variables to the range being displayed
-        if (brush.empty()) {
+        if (context_brush.empty()) {
             Session.set("brush_start", Session.get("date_start"));
             Session.set("brush_end", Session.get("date_end"));
         } else {
@@ -171,7 +171,7 @@ Template.focus_context.draw = function() {
 
 		// Implement focus by changing its scale's domain
 		// x.domain(brush.empty() ? x2.domain() : rangeArray(min_hour, max_hour));
-        x.domain(brush.empty() ? x2.domain() : brush.extent());
+        x.domain(context_brush.empty() ? x2.domain() : context_brush.extent());
         focusGraph.attr("x", function(d, i) { return x(d.hour_index); });
 
         // Calculate bar widths responsively
@@ -180,7 +180,7 @@ Template.focus_context.draw = function() {
         bar_width = (diff == 0) ? (map_width*0.4)/num_hours : bar_width;
 
         // Calculate tick interval to use based on the diff
-        if (diff > 100 || brush.empty()) {
+        if (diff > 100 || context_brush.empty()) {
             xAxis.tickValues(interval24);
         } else if (diff > 72) {
             xAxis.tickValues(interval12);
@@ -198,15 +198,28 @@ Template.focus_context.draw = function() {
 
 		// bars.classed("selected", function(d) { return extent[0] <= x(d.x) && x(d.x) + x.rangeBand() <= extent[1]; });
 
-    	d3.selectAll("svg#map g.hour_group.showing").classed("showing", false);
+		// TODO: Use this code for showing the hours brushed on the FOCUS timeline
+  //   	d3.selectAll("svg#map g.hour_group.showing").classed("showing", false);
 
 
-		for (var i = min_hour; i <= max_hour; i++) {
-			d3.select("svg#map g#hour-"+i).classed("showing", true);
-		}
+		// for (var i = min_hour; i <= max_hour; i++) {
+		// 	d3.select("svg#map g#hour-"+i).classed("showing", true);
+		// }
     }
 
-    function brushstart () {
+    function context_brushstart () {
+    	if (Session.get("explore_section")) {
+    		Session.set("explore_section", false);
+    		console.log("got here!");
+    		d3.selectAll('svg#map g#nodes g.hour_group').remove();
+    	};
     }
+}
 
+
+Template.focus_context.explore_section = function  () {
+	Session.set("explore_section", true);
+	Template.map.plot_brushed("all_nodes");
+	console.log("got here!");
+	
 }
