@@ -36,3 +36,7 @@ Deps.autorun(function () {
 		$('#loading_screen').fadeOut('slow');
 	};
 });
+
+
+// jQuery/Bootstrap startup
+$('.btn').button();

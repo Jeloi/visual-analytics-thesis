@@ -10,6 +10,8 @@ Template.map.y_scale = d3.scale.linear()
 
 Template.map.plot_brushed = function(search_id) {
 		console.log("inside plot_brushed");
+		Session.set("plotting", true);
+
 	    var svg = d3.select("svg#map");
 
 	    var start = Session.get("brush_start"),
@@ -22,8 +24,10 @@ Template.map.plot_brushed = function(search_id) {
 	    		.attr({
 	    			'data-group': search_id,
 	    			'data-hour': i,
-	    			'class': 'hour_group showing'
+	    			'class': 'hour_group'
 	    		});
+
+	    	// d3.select("g#focus rect[data-hour='"+i+"']").attr('class', 'bar loaded');
 
 	    	g.selectAll(".pin").data(hours_data[i], mongoId).enter().append('circle')
 		    	.attr("class", "pin")
@@ -34,6 +38,7 @@ Template.map.plot_brushed = function(search_id) {
 		    	.attr('cy', function(d){
 		    		return Template.map.y_scale(d.latitude);
 		    	});
+
 	    };
 
 }

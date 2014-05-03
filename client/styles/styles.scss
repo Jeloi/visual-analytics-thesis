@@ -14,7 +14,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 #title {
-	color: #78C656;
+	color: $green;
 }
 
 //Grids
@@ -27,32 +27,6 @@ h1,h2,h3,h4,h5,h6 {
 	vertical-align: top;
 }
 
-// Timeline Styles
-#timeline_container {
-	height: 130px;
-	.bar {
-	  fill: $blue;
-	}
-	.selected {
-	  fill: #78C656;
-	}
-	.extent {
-	  fill: white;
-	  fill-opacity: .125;
-	  stroke: #fff;
-	}
-	.axis path,
-	.axis line {
-	  fill: none;
-	  stroke: #f0f0f0;
-	  shape-rendering: crispEdges;
-	}
-
-	.axis text {
-	  fill: #f0f0f0;
-	  font-size: 11px;
-	}
-}
 
 #timeline_text {
 	margin-bottom: 10px;
@@ -134,7 +108,7 @@ svg#map {
 	}
 }
 
-.context, .focus {
+#context, #focus {
 	.area {
 	  fill: $blue;
 	}
@@ -145,7 +119,7 @@ svg#map {
 	  fill: white;
 	  fill-opacity: .125;
 	  stroke: #fff;
-	  .explored {
+	  &.explored {
 	  	stroke: $yellow;
 	  }
 	}
@@ -162,12 +136,16 @@ svg#map {
 	}
 }
 
-.focus {
+#focus {
 	.bar {
 		fill: #A6A0CF;
 		&:hover {
 			fill: #FFEC6F;
 		}
+		&.selected {
+			fill: $green;
+		}
+
 	}
 
 }

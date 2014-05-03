@@ -18,6 +18,10 @@ Template.view_options.events({
 				d3.selectAll('#map .hospital').classed({'hidden': true});
 			}
 		}
+	},
+	'click button#explore_section': function (p) {
+		Template.focus_context.explore_section();
+		console.log("clicked");
 	}
 });
 

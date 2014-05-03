@@ -1,3 +1,8 @@
+Template.focus_context.helpers({
+	x: d3.scale.linear()
+});
+
+
 Template.focus_context.draw = function() { 
 	data = hour_counts;
 
@@ -47,7 +52,7 @@ Template.focus_context.draw = function() {
    
 
     var context = svg.append("g")
-        .attr("class", "context")
+        .attr("id", "context")
         .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
         x2.domain(d3.extent(data.map(function(d) { return d.hour_index; })));
@@ -78,16 +83,16 @@ Template.focus_context.draw = function() {
 
 
     var focus = svg.append("g")
-        .attr('class', 'focus')
+        .attr('id', 'focus')
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var x = d3.scale.linear().range([0, width]),
-        y = d3.scale.linear().range([height, 0]);
+    var y = d3.scale.linear().range([height, 0]);
+    Template.focus_context.x.range([0, width]);
 
-	    x.domain(x2.domain());
+	    Template.focus_context.x.domain(x2.domain());
 	    y.domain([0, d3.max(data.map(function(d) { return d.count; }))]);
 
-    var xAxis = d3.svg.axis().scale(x).orient("bottom").tickValues(interval24).tickFormat(tick_formatter);
+    var xAxis = d3.svg.axis().scale(Template.focus_context.x).orient("bottom").tickValues(interval24).tickFormat(tick_formatter);
     var yAxis = d3.svg.axis().scale(y).orient("left").ticks(3);
 
     var barsGroup = focus.append("g")
@@ -113,7 +118,9 @@ Template.focus_context.draw = function() {
             .data(data)
           .enter().append("rect")
           	.attr('class', 'bar')
-            .attr("x", function(d, i) { return x(d.hour_index); })
+          	// .attr('data-hour', "1")
+          	.attr('data-hour', function(d) { return d.hour_index })
+            .attr("x", function(d, i) { return Template.focus_context.x(d.hour_index); })
             .attr("y", function(d) { return y(d.count); })
             .attr("width", (map_width*0.4)/num_hours)
             .attr("height", function(d) { return height - y(d.count); })
@@ -171,8 +178,8 @@ Template.focus_context.draw = function() {
 
 		// Implement focus by changing its scale's domain
 		// x.domain(brush.empty() ? x2.domain() : rangeArray(min_hour, max_hour));
-        x.domain(context_brush.empty() ? x2.domain() : context_brush.extent());
-        focusGraph.attr("x", function(d, i) { return x(d.hour_index); });
+        Template.focus_context.x.domain(context_brush.empty() ? x2.domain() : context_brush.extent());
+        focusGraph.attr("x", function(d, i) { return Template.focus_context.x(d.hour_index); });
 
         // Calculate bar widths responsively
         var diff = Math.ceil(extent[1]) - Math.floor(extent[0]+1);
@@ -212,6 +219,9 @@ Template.focus_context.draw = function() {
     		Session.set("explore_section", false);
     		console.log("got here!");
     		d3.selectAll('svg#map g#nodes g.hour_group').remove();
+    		d3.select('g#focus g#focus_brush').remove();
+    		focus.selectAll('rect.selected').classed('selected', false);
+    		context.select('rect.extent').classed('explored', false);
     	};
     }
 }
@@ -221,5 +231,98 @@ Template.focus_context.explore_section = function  () {
 	Session.set("explore_section", true);
 	Template.map.plot_brushed("all_nodes");
 	console.log("got here!");
+
+	var focus = d3.select('#focus_context #focus'),
+		context = d3.select('#focus_context #context');
+
+
+
+	// Highlight the context brush
+	context.select('rect.extent').classed('explored', true);
+
+	var focus_brush = d3.svg.brush()
+	    .x(Template.focus_context.x)
+	    .on("brush", focus_brushmove);
+	    // .on('brushstart', context_brushstart)
+
+    focus.append("g")
+	    .attr("id", "focus_brush")
+	    .call(focus_brush)
+	    .selectAll("rect")
+	    .attr("y", -6)
+	    .attr("height", 100 + 7);
+
+
+    function focus_brushmove() {
+		var extent = d3.event.target.extent();
+		var x = Template.focus_context.x;
+
+		var extent = focus_brush.extent();
+		var max_hour = Math.floor(extent[1]-0.01);
+		var min_hour = (extent[0] - Math.floor(extent[0]) > 0.4 ? Math.floor(extent[0]+1) : Math.floor(extent[0]));
+
+
+		if (focus_brush.empty()) {
+			d3.selectAll("#nodes g").classed('showing', false);
+		} else {
+
+			var old_min_hour = Session.get("old_min_hour"),
+				old_max_hour = Session.get("old_max_hour");
+
+			var add_min, add_max, remove_min, remove_max; // variables to store ranges for hours that are added/removed
+			// Figure out the range to remove and range to add
+			if (!(min_hour == old_min_hour && max_hour == old_max_hour)) { //only do stuff if the range has changed
+				if (min_hour > old_max_hour || max_hour < old_min_hour) { // disjoint ranges
+					add_min = min_hour;
+					add_max = max_hour;
+					remove_min = old_min_hour;
+					remove_max = old_max_hour;
+				} else {
+					if (min_hour < old_min_hour ) {	
+						add_min = min_hour;
+						add_max = old_min_hour - 1;
+					} 
+					if (min_hour > old_min_hour) {
+						remove_min = old_min_hour;
+						remove_max = min_hour-1;
+					}
+					if (max_hour > old_max_hour) {
+						add_min = old_max_hour+1;
+						add_max = max_hour;
+					} 
+					if (max_hour < old_max_hour) {
+						remove_min = max_hour+1;
+						remove_max = old_max_hour;
+					}
+
+				}
+
+				// Remove range actions
+				for (var i = remove_min; i <= remove_max; i++) {
+					focus.select("rect[data-hour='"+i+"']").classed('selected', false);
+					d3.selectAll("#nodes g[data-hour='"+i+"']").classed('showing', false);
+				};
+
+				// Add range actions
+				for (var i = add_min; i <= add_max; i++) {
+					focus.select("rect[data-hour='"+i+"']").classed('selected', true);
+					d3.selectAll("#nodes g[data-hour='"+i+"']").classed('showing', true);
+				};
+
+			};
+
+		};
+		
+		Session.set("old_min_hour", min_hour);
+		Session.set("old_max_hour", max_hour);
+
+
+
+	 //   // Calculate and show total selected
+	 //   makeSum();
+    }
+
+
+
 	
 }
