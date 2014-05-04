@@ -1,6 +1,7 @@
 // var require __meteor_bootstrap__.require
 var sys = Npm.require('sys');
 var exec=Npm.require("child_process").exec;
+var fs = Npm.require('fs');
 
 // Development methods to call on the server to clean up data in the database
 Meteor.methods({
@@ -56,5 +57,32 @@ Meteor.methods({
 		// 	Microblogs.update({_id : doc._id}, {$set: {hour_index: dateToHour(date)}});
 		// });
 		console.log("finished!");
+	},
+	dev_createIndexes: function() {
+		for (var i = 0; i < 504; i++) {
+			console.log("hour: "+i);
+			var result = Microblogs.find({hour_index: i},  {sort: {date_time: 1}}).fetch();
+
+			hours_data[i] = result;
+
+			index = lunr(function () {
+				this.field('text')
+				this.ref('_id')
+			})
+
+			console.log("adding to index");
+			// Create an index and add it to indexes global variable
+			for (var j = 0; j < result.length; j++) {
+				// console.log("j: "+j);
+				index.add(result[j]);
+			};
+
+			json = index.toJSON();
+			// json.version = json.version.replace(/\./g, "_");
+			// console.log(json.version);
+			// Indexes.insert({hour_index: i, serialized: json});
+			// Writing to outside area so server doesn't restart while generating files
+			fs.writeFile("/Users/jeloi/index_jsons/index-"+i+".json", JSON.stringify(json));
+		}
 	}
 });
