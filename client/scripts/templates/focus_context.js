@@ -163,7 +163,8 @@ Template.focus_context.draw = function() {
     function context_brushmove() {
 
 	    var extent = context_brush.extent();
-		var min_hour = Math.floor(extent[0]+1), max_hour = Math.floor(extent[1]-0.01);
+		var min_hour = (extent[0] - Math.floor(extent[0]) > 0.4 ? Math.floor(extent[0]+1) : Math.floor(extent[0]));
+		var max_hour = Math.floor(extent[1]-0.01);
 
 
         // Set the session variables to the range being displayed
@@ -171,7 +172,7 @@ Template.focus_context.draw = function() {
             Session.set("brush_start", Session.get("date_start"));
             Session.set("brush_end", Session.get("date_end"));
         } else {
-            Session.set("brush_start", min_hour-1);
+            Session.set("brush_start", min_hour);
             Session.set("brush_end", max_hour+1);
         }
 
@@ -217,7 +218,6 @@ Template.focus_context.draw = function() {
     function context_brushstart () {
     	// if (Session.get("explore_section")) {
     		Session.set("explore_section", false);
-    		console.log("got here!");
     		d3.selectAll('svg#map g#nodes g.hour_group').remove();
     		d3.select('g#focus g#focus_brush').remove();
     		focus.selectAll('rect.selected').classed('selected', false);
@@ -228,11 +228,8 @@ Template.focus_context.draw = function() {
 
 
 Template.focus_context.explore_section = function  (start_hour, end_hour) {
-	console.log(start_hour);
-	console.log(end_hour);
 	Session.set("explore_section", true);
 	Template.map.plot_brushed("all_nodes");
-	console.log("got here!");
 
 	var focus = d3.select('#focus_context #focus'),
 		context = d3.select('#focus_context #context');
@@ -256,8 +253,6 @@ Template.focus_context.explore_section = function  (start_hour, end_hour) {
 
 
     function focus_brushmove() {
-    	console.log(start_hour);
-    	console.log(end_hour);
 		var extent = d3.event.target.extent();
 		var x = Template.focus_context.x;
 

@@ -225,8 +225,6 @@ Template.map.rendered = function () {
 
 Template.map.helpers({
 	date_start: function () {
-		console.log(Session.get("brush_start"));
-		console.log(Session.get("brush_end"));
 		return prettyDate(hourToDate(Session.get("brush_start")));
 	}, 
 	date_end: function() { 
