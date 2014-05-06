@@ -31,7 +31,11 @@ Template.map.plot_brushed = function(search_id) {
 
 	    	g.selectAll(".pin").data(hours_data[i], mongoId).enter().append('circle')
 		    	.attr("class", "pin")
-		    	.attr("r", 2)
+		    	.attr('title', function (d) {
+		    		return prettyDate(d.date_time);
+		    	})
+		    	.attr('data-content', function(d) { return d.text; })
+		    	.attr("r", 3)
 		    	.attr('cx', function(d) {
 		    		return Template.map.x_scale(d.longitude);
 		    	})
@@ -40,6 +44,12 @@ Template.map.plot_brushed = function(search_id) {
 		    	});
 
 	    };
+
+	    // Initialize bootstrap popovers
+	    // $('.pin').click(function(this) {
+	    	
+	    // 	$(this).popover()
+	    // });
 
 }
 
@@ -231,4 +241,15 @@ Template.map.helpers({
 		return prettyDate(hourToDate(Session.get("brush_end")));
 	}
 });
+
+Template.map.events({
+	'click circle.pin': function (p) {
+		console.log($(p));
+		console.log("got here!");
+	},
+	'click' : function(p) { 
+		console.log(p);
+		console.log("got here!");
+	}
+})
 

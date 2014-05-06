@@ -19,5 +19,9 @@ Meteor.methods({
 			binned_data.push(oneHourBlogs(i).fetch());
 		};		
 		return binned_data;
+	},
+	search_microblogs: function(searchText) {
+		return searchMicroblogs(searchText);
+		// return "searchMicroblogs(searchText)";
 	}
 })
