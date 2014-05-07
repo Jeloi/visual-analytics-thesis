@@ -3,6 +3,7 @@ Session.set("date_end", num_hours);
 Session.set("brush_start", Session.get("date_start"));
 Session.set("brush_end", Session.get("date_end"));
 Session.set("hours_loaded", 0);
+Session.set("num_searches", 0);
 
 // Initial Load
 // Populate hours_data with the datapoints binned by hour

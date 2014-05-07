@@ -1,4 +1,4 @@
-// Helpers
+// View Options Helpers
 Template.view_options.helpers({
 	selected_count: function  () {
 		if (Session.get("all_data_loaded")) {
@@ -14,7 +14,7 @@ Template.view_options.helpers({
 	}
 });
 
-// Events
+// View Options Events
 Template.view_options.events({
 	'change input[type=checkbox]': function (p) {
 		var option = p.target.value;
@@ -44,6 +44,7 @@ Template.view_options.events({
 	}
 });
 
+// Search functionality
 Template.view_options.search = function(searchText) {
 	Meteor.apply('search_microblogs', [searchText], function (error, result) {
 		if (error) {
@@ -75,4 +76,20 @@ Template.view_options.search = function(searchText) {
 		}
 
 	});
+}
+
+// Removing a search
+Template.view_options.remove_search = function(searchId) {
+	if (search_data.hasOwnProperty(searchId)) {
+		// Remove rendered DOM elements
+
+		// Delete data
+		delete search_data[searchId];
+		delete search_counts[searchId];
+
+		Session.set("num_searches", Session.get("num_searches")-1);
+		return true;
+	} else {
+		return false;
+	}
 }
