@@ -90,7 +90,7 @@ Template.map.plot_searched = function(searchId) {
 	    		.attr({
 	    			'data-group': searchId,
 	    			'data-hour': key,
-	    			'class': 'hour_group showing '+searchId
+	    			'class': 'hour_group showing '+search_colors[searchId]
 	    		});
 
 	    	// d3.select("g#focus rect[data-hour='"+i+"']").attr('class', 'bar loaded');

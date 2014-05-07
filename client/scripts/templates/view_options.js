@@ -50,13 +50,11 @@ Template.view_options.search = function(searchText) {
 		if (error) {
 			console.log(error);
 		} else {
-			console.log(result);
+			// console.log(result);
 			// The search id, set to current time to be unique
 			var search_id = new Date().getTime();
 			var counts = result[0],
 				result_ids = result[1];
-
-				console.log(result_ids);
 
 			var search_results = {};
 
@@ -73,6 +71,9 @@ Template.view_options.search = function(searchText) {
 
 			// Handle counts by pushing them t the global variable search_counts
 			search_counts[search_id] = counts;
+
+			search_colors[search_id] = getColor();
+
 
 			// Plot searched data
 			Template.map.plot_searched(search_id);
@@ -91,6 +92,7 @@ Template.view_options.remove_search = function(searchId) {
 		// Delete data
 		delete search_data[searchId];
 		delete search_counts[searchId];
+		delete search_colors[searchId];
 
 		Session.set("num_searches", Session.get("num_searches")-1);
 		return true;
