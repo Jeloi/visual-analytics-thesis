@@ -57,7 +57,7 @@ svg#map {
 		display: none;
 		visibility: hidden;
 	}
-	g.showing {
+	g.showing:not(.disabled) {
 		display: inherit !important;
 		visibility: visible !important;
 	}
@@ -165,4 +165,30 @@ svg#map {
 	background: rgba(51, 51, 51, 0.58);
 	margin-left: -170px;
 	text-align: center;
+}
+
+// Search section
+.search_unit {
+	padding: 8px 15px;
+	margin-bottom: 10px;
+	list-style: none;
+	background-color: #3F79AA;
+	// border: 2px #5EB4E3 solid;
+	border-radius: 4px;
+	&.inactive {
+		border: none;
+		background-color: #606163;
+	}
+	.clickable, .glyphicon {
+		cursor: pointer;
+	}
+	.term { font-weight: bold }
+	.number { font-size: 0.8em; float: right }
+	.glyphicon {
+		margin-left: 2em;
+		float: right;
+		&:hover {
+			color: #FF2E00;
+		}
+	}
 }

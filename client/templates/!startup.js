@@ -1,4 +1,5 @@
 Meteor.startup(function () {
+});
 	// Initial Load
 	// Populate hours_data with the datapoints binned by hour
 	for (var i = 0; i < num_hours; i++) {
@@ -20,4 +21,3 @@ Meteor.startup(function () {
 			d3.select('#loading_contents .percentage').text(percentage+" Loaded");
 		});
 	};
-});

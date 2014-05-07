@@ -45,9 +45,36 @@ Template.view_options.events({
 	'submit form#search': function( event ){   // also tried just 'submit', both work for me!
 	   event.preventDefault();
 	   event.stopPropagation();
-	   $('#search input').val('');
+	   var searchText = $('#search input').val();
+	   if (searchText != "") {
+		   Template.view_options.search(searchText);
+		   $('#search input').val('');
+	   };
 	   return false; 
-	 }
+	 },
+	 // Show/Hide a search_unit
+	 "click .search_unit .clickable": function (event) {
+	 	// var p = $(event.target).parent('.search_unit');
+	 	var p = $(event.target).parents('.search_unit');
+	 	var search_id = p.data('search-id');
+
+	 	// console.log($(event.target).parents('.search_unit'));
+	 	if (p.hasClass('inactive')) {
+	 		p.removeClass('inactive');
+	 		d3.selectAll("#map #nodes g[data-group='"+search_id+"']").classed('disabled', false);
+
+	 	} else {
+	 		p.addClass('inactive')
+	 		d3.selectAll("#map #nodes g[data-group='"+search_id+"']").classed('disabled', true);
+	 	}
+	 },
+	 // Remove a search
+	 "click .search_unit .glyphicon-remove": function (event) {
+	 	var p = $(event.target).parents('.search_unit');
+	 	var search_id = p.data('search-id');
+	 	Template.view_options.remove_search(search_id);
+	 	p.remove();
+	 },
 });
 
 // Search functionality
@@ -60,7 +87,8 @@ Template.view_options.search = function(searchText) {
 			// The search id, set to current time to be unique
 			var search_id = new Date().getTime();
 			var counts = result[0],
-				result_ids = result[1];
+				result_ids = result[1],
+				result_count = result[2];
 
 			var search_results = {};
 
@@ -80,6 +108,9 @@ Template.view_options.search = function(searchText) {
 
 			search_colors[search_id] = getColor();
 
+			var render_data = {search_text: searchText, color: search_colors[search_id], count: result_count, search_id: search_id};
+			var search_unit = UI.renderWithData(Template.search_unit, {search_unit: render_data});
+			UI.insert(search_unit, $('#results_container')[0]);
 
 			// Plot searched data
 			Template.map.plot_searched(search_id);
@@ -93,7 +124,9 @@ Template.view_options.search = function(searchText) {
 // Removing a search
 Template.view_options.remove_search = function(searchId) {
 	if (search_data.hasOwnProperty(searchId)) {
+		console.log("removing: "+searchId);
 		// Remove rendered DOM elements
+		d3.selectAll("#map #nodes g[data-group='"+searchId+"']").remove();
 
 		// Delete data
 		delete search_data[searchId];

@@ -55,6 +55,6 @@ searchMicroblogs = function (searchText) {
 
         // Initialize bins for hours that will each hold an array of id's
         console.log(search_counts.length);
-        return [search_counts, search_results];
+        return [search_counts, search_results, searchResults.length];
     }
 };

@@ -29,11 +29,32 @@
 
 	<button class="btn btn-primary" id="explore_section" data-toggle="button">Explore Section</button>
 
+	<br><br>
+
 	<div id="search_section">
-		<form action="" id="search">
-			<input class="form-control" type="text" placeholder="Enter search term">
-			<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>	
-		</form>
+		<h5>Filter Terms</h5>
+			<form action="" id="search">
+				<div class="input-group">
+						<input class="form-control" type="text" placeholder="Enter search term">
+						<span class="input-group-btn"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button></span>
+				</div>
+			</form>
+		<h5>Results</h5>
+		<div id="results_container"></div>
 	</div>
 
+</template>
+
+
+<template name="search_unit">
+	<div class="search_unit" data-search-id="{{search_unit.search_id}}">
+		<span class="clickable">
+			<svg height="15" width="15" class="{{search_unit.color}}" style="margin-bottom: -2px">
+				<rect x="0" y="0" width="15" height="15" rx="5" ry="5" class="pin"/>
+			</svg>
+			  <span class="term">{{search_unit.search_text}}</span>
+		</span>
+			  <span class="glyphicon glyphicon-remove"></span>
+			  <span class="number">{{search_unit.count}}</span>
+	</div>
 </template>
