@@ -22,6 +22,5 @@ Meteor.methods({
 	},
 	search_microblogs: function(searchText) {
 		return searchMicroblogs(searchText);
-		// return "searchMicroblogs(searchText)";
 	}
 })

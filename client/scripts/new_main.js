@@ -1,3 +1,7 @@
+Session.set("date_start", 0);
+Session.set("date_end", num_hours);
+Session.set("brush_start", Session.get("date_start"));
+Session.set("brush_end", Session.get("date_end"));
 Session.set("hours_loaded", 0);
 
 // Initial Load
@@ -22,10 +26,7 @@ for (var i = 0; i < num_hours; i++) {
 	});
 };
 
-Session.set("date_start", 0);
-Session.set("date_end", num_hours);
-Session.set("brush_start", Session.get("date_start"));
-Session.set("brush_end", Session.get("date_end"));
+
 
 Deps.autorun(function () {
 	if (Session.get("hours_loaded") == num_hours) {
