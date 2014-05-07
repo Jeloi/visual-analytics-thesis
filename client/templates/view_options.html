@@ -1,0 +1,39 @@
+<template name="view_options">
+	<h4>Mouse Coordinates:</h4>
+	<div class="mousecoords">
+		<p><strong>N:</strong><span class="y">0</span></p>
+		<p><strong>W:</strong><span class="x">0</span></p>
+	</div>
+
+	<h4>Map</h4>
+	<div class="btn-group map_color">
+	  <button type="button" class="btn btn-default" data-color="bw">BW</button>
+	  <button type="button" class="btn btn-default active" data-color="color">Color</button>
+	</div>
+
+	<h4>View Options</h4>
+	<div class="option_checkboxes">
+		<div><label> <input type="checkbox" value="microblogs" checked="checked"> Microblogs </label></div>
+		<div><label> <input type="checkbox" value="hospitals"> Hospitals </label></div>
+		<div><label> <input type="checkbox" value="weather"> Weather </label></div>
+	</div>
+
+	<!-- Button trigger modal -->
+<!-- 	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#browse">
+	  Browse Microblogs
+	</button> -->
+
+	<div class="section">
+		Selected: <span class="yellow">{{selected_count}}</span>
+	</div>
+
+	<button class="btn btn-primary" id="explore_section" data-toggle="button">Explore Section</button>
+
+	<div id="search_section">
+		<form action="" id="search">
+			<input class="form-control" type="text" placeholder="Enter search term">
+			<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>	
+		</form>
+	</div>
+
+</template>

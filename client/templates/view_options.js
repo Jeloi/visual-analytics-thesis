@@ -41,7 +41,13 @@ Template.view_options.events({
 			Template.focus_context.explore_section(Session.get("brush_start"), Session.get("brush_end"));
 			console.log("clicked");
 		};
-	}
+	},
+	'submit form#search': function( event ){   // also tried just 'submit', both work for me!
+	   event.preventDefault();
+	   event.stopPropagation();
+	   $('#search input').val('');
+	   return false; 
+	 }
 });
 
 // Search functionality
