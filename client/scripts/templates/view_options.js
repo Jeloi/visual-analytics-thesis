@@ -56,6 +56,8 @@ Template.view_options.search = function(searchText) {
 			var counts = result[0],
 				result_ids = result[1];
 
+				console.log(result_ids);
+
 			var search_results = {};
 
 			// Handle result_ids by filtering hours_data and creating the binned arrays of data for the search
@@ -71,6 +73,9 @@ Template.view_options.search = function(searchText) {
 
 			// Handle counts by pushing them t the global variable search_counts
 			search_counts[search_id] = counts;
+
+			// Plot searched data
+			Template.map.plot_searched(search_id);
 
 			Session.set("num_searches", Session.get("num_searches")+1);
 		}

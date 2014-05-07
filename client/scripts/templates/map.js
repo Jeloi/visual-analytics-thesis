@@ -1,3 +1,26 @@
+// Map helpers
+Template.map.helpers({
+	date_start: function () {
+		return prettyDate(hourToDate(Session.get("brush_start")));
+	}, 
+	date_end: function() { 
+		return prettyDate(hourToDate(Session.get("brush_end")));
+	}
+});
+
+// Map events
+Template.map.events({
+	'click circle.pin': function (p) {
+		console.log($(p));
+		console.log("got here!");
+	},
+	'click' : function(p) { 
+		console.log(p);
+		console.log("got here!");
+	}
+})
+
+
 // Map Scales
 Template.map.x_scale = d3.scale.linear()
 		.domain([longitude_1, longitude_2])
@@ -47,75 +70,48 @@ Template.map.plot_brushed = function(search_id) {
 
 	    // Initialize bootstrap popovers
 	    // $('.pin').click(function(this) {
-	    	
+
 	    // 	$(this).popover()
 	    // });
 
 }
 
-Template.map.plot_nodes = function (data, day_index) {
-	console.log("inside plot_nodes");
+Template.map.plot_searched = function(searchId) {
+	console.log("inside plot_searched");
+	Session.set("plotting", true);
 
-    var svg = d3.select("svg#map");
+	var svg = d3.select("svg#map");
+	var searched_nodes = search_data[searchId];
 
-    // svg.selectAll(".pin").remove();
+    // Append a group to the relevant hour, for this subset (or full set) of data	
+    for (var key in searched_nodes) {
+		if (searched_nodes.hasOwnProperty(key)) {
+	    	var g = svg.select('#nodes').append('g')
+	    		.attr({
+	    			'data-group': searchId,
+	    			'data-hour': key,
+	    			'class': 'hour_group showing '+searchId
+	    		});
 
-    // console.log(Session.get("day_index"));
-    // d3.csv('csvs/day-'+Session.get("day_index")+'.csv', function(data) {
-    // 	console.log(data[0]);
-    // 	// Coerce the data into its proper form
-    // 	data.forEach(function (d) {
-    // 		// console.log(d);
-    // 		d.date_time = d3.time.format.iso.parse(d.date_time);
-    // 		d._id = d._id.replace(/ObjectID\(|\)/g, "");
-    // 		// d.longitude = +d.longitude;
-    // 		// d.latitude = +d.latitude;
-    // 	});
-    // 	console.log(data[0]);
+	    	// d3.select("g#focus rect[data-hour='"+i+"']").attr('class', 'bar loaded');
 
-
-    	day_data = all_data[Session.get("day_index")];
-    	// Session.set("total_day_microblogs", day_data.length);
-
-    	var g = svg.select('g#day-'+day_index);
-    	// console.log(data.length);
-    	var pins = g.selectAll(".pin").data(data, mongoId).enter().append("circle")
-	    	.attr("class", "pin")
-	    	.attr("r", 2)
-	    	.attr('cx', function(d) {
-	    		return Template.map.x_scale(d.longitude);
-	    	})
-	    	.attr('cy', function(d){
-	    		return Template.map.y_scale(d.latitude);
-	    	});
-
-	    	g.classed("hidden", function() { 
-	    		return !(day_index == Session.get("day_index"));
-	    	})
-
-   //  	if (day_index == Session.get("day_index")) {
-	  //   	// Call brushing method
-		 //    Template.map.brush();
-
-		 //    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
-		 //    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
-		 //    	this.parentNode.appendChild(this);
-		 //    })
-
-			// // Call Timeline method
-			// Template.timeline.draw(day_index);	    
-   //  	};
-
-    // });
+	    	g.selectAll(".pin").data(searched_nodes[key], mongoId).enter().append('circle')
+		    	.attr("class", "pin")
+		    	.attr('title', function (d) {
+		    		return prettyDate(d.date_time);
+		    	})
+		    	.attr('data-content', function(d) { return d.text; })
+		    	.attr("r", 3)
+		    	.attr('cx', function(d) {
+		    		return Template.map.x_scale(d.longitude);
+		    	})
+		    	.attr('cy', function(d){
+		    		return Template.map.y_scale(d.latitude);
+		    	});
+	    }
+    };
 }
 
-Template.map.remove_nodes = function  () {
-	console.log("in remove_nodes!");
-	// Watch Session.get("day_start")
-	var day_start = Session.get("day_start")
-    var svg = d3.select("svg#map");
-    var nodes = svg.selectAll(".pin").remove();
-}
 
 Template.map.brush = function () {
     var svg = d3.select("svg#map");
@@ -131,45 +127,7 @@ Template.map.brush = function () {
 }
 
 
-Template.map.plot_pins = function (data, hour_index) {
-	console.log("inside plot_nodes");
 
-    var svg = d3.select("svg#map");
-
-    	var g = svg.select('g#hour-'+hour_index).classed("hidden", function() { 
-	    		return !(hour_index == Session.get("hour_index"));
-    	});
-
-    	// console.log(data.length);
-    	var pins = g.selectAll(".pin").data(data, mongoId).enter().append("circle")
-	    	.attr("class", "pin")
-	    	.attr("r", 2)
-	    	.attr('cx', function(d) {
-	    		return Template.map.x_scale(d.longitude);
-	    	})
-	    	.attr('cy', function(d){
-	    		return Template.map.y_scale(d.latitude);
-	    	});
-
-	    	g.classed("hidden", function() { 
-	    		return !(hour_index == Session.get("hour_index"));
-	    	})
-
-   //  	if (day_index == Session.get("day_index")) {
-	  //   	// Call brushing method
-		 //    Template.map.brush();
-
-		 //    // Append the brush rectangle to the end of the svg, so that it stays on top of all points
-		 //    d3.selectAll('svg#map rect.background, svg#map rect.extent').each(function () {
-		 //    	this.parentNode.appendChild(this);
-		 //    })
-
-			// // Call Timeline method
-			// Template.timeline.draw(day_index);	    
-   //  	};
-
-    // });
-}
 
 Template.map.rendered = function () {
 
@@ -233,23 +191,4 @@ Template.map.rendered = function () {
 
 }
 
-Template.map.helpers({
-	date_start: function () {
-		return prettyDate(hourToDate(Session.get("brush_start")));
-	}, 
-	date_end: function() { 
-		return prettyDate(hourToDate(Session.get("brush_end")));
-	}
-});
-
-Template.map.events({
-	'click circle.pin': function (p) {
-		console.log($(p));
-		console.log("got here!");
-	},
-	'click' : function(p) { 
-		console.log(p);
-		console.log("got here!");
-	}
-})
 
