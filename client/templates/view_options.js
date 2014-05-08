@@ -62,10 +62,16 @@ Template.view_options.events({
 	 	if (p.hasClass('inactive')) {
 	 		p.removeClass('inactive');
 	 		d3.selectAll("#map #nodes g[data-group='"+search_id+"']").classed('disabled', false);
+	 		delete disabled_searches[search_id];
+			Session.set("num_searches", Session.get("num_searches")+1);
+			Template.streamgraph.draw()
 
 	 	} else {
 	 		p.addClass('inactive')
 	 		d3.selectAll("#map #nodes g[data-group='"+search_id+"']").classed('disabled', true);
+	 		disabled_searches[search_id] = 1;
+			Session.set("num_searches", Session.get("num_searches")-1);
+			Template.streamgraph.draw()
 	 	}
 	 },
 	 // Remove a search
@@ -115,10 +121,11 @@ Template.view_options.search = function(searchText) {
 			// Plot searched data
 			Template.map.plot_searched(search_id);
 
+			Session.set("num_searches", Session.get("num_searches")+1);
+
 			// Update the stream
 			Template.streamgraph.draw()
 
-			Session.set("num_searches", Session.get("num_searches")+1);
 		}
 
 	});
@@ -137,12 +144,7 @@ Template.view_options.remove_search = function(searchId) {
 		delete search_colors[searchId];
 
 		Session.set("num_searches", Session.get("num_searches")-1);
-		if (Session.get("num_searches") > 0) {
-			Template.streamgraph.draw()
-		} else {
-			d3.selectAll("#streamgraph svg g path").remove();
-		};
-
+		Template.streamgraph.draw()
 		return true;
 	} else {
 		return false;
