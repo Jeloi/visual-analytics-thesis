@@ -8,12 +8,6 @@ Template.focus_context.draw = function() {
 
 	var focusGraph;
 
-    // Intervals for Ticks
-    var interval6 = [0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 96, 102, 108, 114, 120, 126, 132, 138, 144, 150, 156, 162, 168, 174, 180, 186, 192, 198, 204, 210, 216, 222, 228, 234, 240, 246, 252, 258, 264, 270, 276, 282, 288, 294, 300, 306, 312, 318, 324, 330, 336, 342, 348, 354, 360, 366, 372, 378, 384, 390, 396, 402, 408, 414, 420, 426, 432, 438, 444, 450, 456, 462, 468, 474, 480, 486, 492, 498, 504],
-        interval12 = [0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144, 156, 168, 180, 192, 204, 216, 228, 240, 252, 264, 276, 288, 300, 312, 324, 336, 348, 360, 372, 384, 396, 408, 420, 432, 444, 456, 468, 480, 492, 504],
-        interval24 = [0, 24, 48, 72, 96, 120, 144, 168, 192, 216, 240, 264, 288, 312, 336, 360, 384, 408, 432, 456, 480, 504];
-    var full_interval = rangeArray(0,504);
-
 	// Context
 	var margin = {top: 140, right: 50, bottom: 0, left: 50},
 	    margin2 = {top: 10, right: 50, bottom: 20, left: 50},//{top: 430, right: 10, bottom: 20, left: 40},
@@ -127,39 +121,6 @@ Template.focus_context.draw = function() {
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
-            $(function ()    
-            	{ $('#example').tooltip();
-            });  
-
-    // Returns a date and time formatted for the tip date
-    function tip_date (hour_index) {
-    	var date = hourToDate(hour_index);
-    	return date.getMonth()+"/"+date.getDate()+" "+date.getHours()+":00";
-    } 
-
-
-    // Returns a date 5/1 or the am/pm hour of the day, given an hour_index
-    function tick_formatter (d) {
-        // console.log(d);
-        if (d % 24 == 0) {
-            var date = hourToDate(d);
-            return (date.getMonth()+1)+"/"+date.getDate();
-        } else {
-            var mil = d%24;
-            if (mil > 12) {
-                return (mil%12)+"pm";
-            } else if (mil == 12) {
-                return "12pm";
-            }
-            else {
-                return mil+"am";
-            }
-            // return (d%24)+":00";
-            // return d;
-        };
-    }
-
-
     function context_brushmove() {
 
 	    var extent = context_brush.extent();
@@ -218,7 +179,7 @@ Template.focus_context.draw = function() {
     function context_brushstart () {
     	// if (Session.get("explore_section")) {
     		Session.set("explore_section", false);
-    		d3.selectAll('svg#map g#nodes g.hour_group').remove();
+    		d3.selectAll("svg#map g#nodes g[data-group='all_nodes']").remove();
     		d3.select('g#focus g#focus_brush').remove();
     		focus.selectAll('rect.selected').classed('selected', false);
     		context.select('rect.extent').classed('explored', false);
@@ -324,13 +285,6 @@ Template.focus_context.explore_section = function  (start_hour, end_hour) {
 			Session.set("old_max_hour", max_hour);
 
 		};
-
-
-
-
-
-
-
 	 //   // Calculate and show total selected
 	 //   makeSum();
     }

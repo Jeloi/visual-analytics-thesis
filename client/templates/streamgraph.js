@@ -35,6 +35,23 @@ Template.streamgraph.draw = function () {
 		    .y0(function(d) { return Template.streamgraph.y_scale(d.y0); })
 		    .y1(function(d) { return Template.streamgraph.y_scale(d.y0 + d.count); });
 
+		var xAxis = d3.svg.axis()
+		    .scale(Template.streamgraph.x_scale)
+		    .orient("bottom")
+		    .ticks(10);
+
+		var yAxis = d3.svg.axis()
+			.orient("right")
+		    .scale(Template.streamgraph.y_scale);
+
+		var yAxisr = d3.svg.axis()
+			.orient("left")
+		    .scale(Template.streamgraph.y_scale);
+
+		// Update Axis
+
+
+		// Streamgraph
 	    streams = svg.selectAll("path")
 	        .data(layers)
 
@@ -45,6 +62,12 @@ Template.streamgraph.draw = function () {
 	    streams.attr("d", function(d) { return area(d.counts); }) //update the areas
 	        .attr('class', function(d) { return d.color });
 
+
+	    // Axis
+	    // d3.select(".x.axis").call(xAxis);
+	    // d3.select(".y.axis.left").call(yAxis);
+	    // d3.select(".y.axis.right").call(yAxisr);
+
     } else {
     	d3.selectAll("#streamgraph svg g path").remove();
     };
@@ -52,20 +75,31 @@ Template.streamgraph.draw = function () {
 }
 
 Template.streamgraph.rendered = function() {
-	var margin = {top: 0, right: 50, bottom: 0, left: 50},
+	var margin = {top: 10, right: 50, bottom: 0, left: 50},
 		width = map_width - margin.left - margin.right,
-		height = 200;
+		height = 270;
 
 
 	var svg = d3.select("#streamgraph").append("svg")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom)
 	    .append("g")
+	    .attr('id', 'streams')
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	Template.streamgraph.x_scale.range([0, width]);
 	Template.streamgraph.y_scale.range([height, 0]);
 
+	// d3.select("#steamgraph > svg").append("g")
+	//     .attr("class", "x axis")
+	//     .attr("transform", "translate(0," + height + ")")
+
+	// d3.select("#steamgraph > svg").append("g")
+	//     .attr("class", "y axis right")
+	//     .attr("transform", "translate(" + width + ", 0)")
+
+	// d3.select("#steamgraph > svg").append("g")
+	//     .attr("class", "y axis left")
 }
 
 Template.streamgraph.x_scale = d3.scale.linear()
