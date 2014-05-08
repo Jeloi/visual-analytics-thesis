@@ -136,9 +136,13 @@ Template.view_options.remove_search = function(searchId) {
 		delete search_counts[searchId];
 		delete search_colors[searchId];
 
-		Template.streamgraph.draw()
-
 		Session.set("num_searches", Session.get("num_searches")-1);
+		if (Session.get("num_searches") > 0) {
+			Template.streamgraph.draw()
+		} else {
+			d3.selectAll("#streamgraph svg g path").remove();
+		};
+
 		return true;
 	} else {
 		return false;

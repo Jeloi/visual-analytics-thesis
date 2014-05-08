@@ -14,14 +14,6 @@ Template.streamgraph.draw = function () {
 	var data = _.map(search_counts, function(val, key) { return val } );
 
 	console.log(data);
-	var max_count=0;
-	for (var i = 0; i < data.length; i++) {
-		var max_group = d3.max(data[i], function(d) {return d.y0+d.count});
-		if (max_group > max_count) {
-			max_count = max_group;
-		}
-	};
-	console.log(max_count);
 
 	var layers = stack(data);
 
