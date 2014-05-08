@@ -192,3 +192,25 @@ svg#map {
 		}
 	}
 }
+
+#streamgraph {
+	.extent {
+	  fill: white;
+	  fill-opacity: .125;
+	  stroke: #fff;
+	  &.explored {
+	  	stroke: $yellow;
+	  }
+	}
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #f0f0f0;
+	  shape-rendering: crispEdges;
+	}
+
+	.axis text {
+	  fill: #f0f0f0;
+	  font-size: 11px;
+	}
+}

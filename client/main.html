@@ -11,8 +11,14 @@
 				<div class="main" id="map_container">
 					{{> map}}
 				</div>
-				{{> focus_context}}
-				{{> streamgraph}}
+				<div class="tab-content">
+				  <div class="tab-pane active" id="overview_tab">
+				  	{{> focus_context}}
+				  </div>
+				  <div class="tab-pane" id="filter_tab">
+				  	{{> streamgraph}}
+				  </div>
+				</div>
 			</td>
 			
 			<td id="col_right">

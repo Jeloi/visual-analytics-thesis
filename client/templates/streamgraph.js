@@ -77,18 +77,31 @@ Template.streamgraph.draw = function () {
 Template.streamgraph.rendered = function() {
 	var margin = {top: 10, right: 50, bottom: 0, left: 50},
 		width = map_width - margin.left - margin.right,
-		height = 270;
+		height = 230;
 
 
 	var svg = d3.select("#streamgraph").append("svg")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom)
-	    .append("g")
+
+
+
+	var g = svg.append("g")
 	    .attr('id', 'streams')
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	Template.streamgraph.x_scale.range([0, width]);
 	Template.streamgraph.y_scale.range([height, 0]);
+
+
+
+	svg.append("g")
+	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		.attr("class", "stream_brush")
+		.call(Template.streamgraph.brush)
+		.selectAll("rect")
+		.attr("y", -6)
+		.attr("height", height + 5);
 
 	// d3.select("#steamgraph > svg").append("g")
 	//     .attr("class", "x axis")
@@ -102,8 +115,96 @@ Template.streamgraph.rendered = function() {
 	//     .attr("class", "y axis left")
 }
 
+Template.streamgraph.brushmove = function(){
+	var brush = Template.streamgraph.brush;
+	var extent = brush.extent();
+	var min_hour = (Math.floor(extent[0]));
+	var max_hour = Math.floor(extent[1]);
+
+	// console.log(min_hour);
+	// console.log(max_hour);
+
+	// Set the session variables to the range being displayed
+	if (brush.empty()) {
+	    Session.set("brush_start", Session.get("date_start"));
+	    Session.set("brush_end", Session.get("date_end"));
+	} else {
+	    Session.set("brush_start", min_hour);
+	    Session.set("brush_end", max_hour);
+	}
+	
+
+	if (brush.empty()) {
+		console.log("stream brush is empty!");
+		d3.selectAll("#nodes g").classed('showing', false);
+		Session.set("old_min_hour", -1);
+	} else {
+
+		var old_min_hour = Session.get("old_min_hour"),
+			old_max_hour = Session.get("old_max_hour");
+
+		var add_min, add_max, remove_min, remove_max; // variables to store ranges for hours that are added/removed
+		// Figure out the range to remove and range to add
+		if (!(min_hour == old_min_hour && max_hour == old_max_hour)) { //only do stuff if the range has changed
+			if (min_hour > old_max_hour || max_hour < old_min_hour) { // disjoint ranges
+				add_min = min_hour;
+				add_max = max_hour;
+				remove_min = old_min_hour;
+				remove_max = old_max_hour;
+			} else {
+				if (min_hour < old_min_hour ) {	
+					add_min = min_hour;
+					add_max = old_min_hour - 1;
+				} 
+				if (min_hour > old_min_hour) {
+					remove_min = old_min_hour;
+					remove_max = min_hour-1;
+				}
+				if (max_hour > old_max_hour) {
+					add_min = old_max_hour+1;
+					add_max = max_hour;
+				} 
+				if (max_hour < old_max_hour) {
+					remove_min = max_hour+1;
+					remove_max = old_max_hour;
+				}
+
+			}
+
+			// Remove range actions
+			// if (Session.get("old_min_hour") == -1) {
+				for (var i = remove_min; i <= remove_max; i++) {
+					// focus.select("rect[data-hour='"+i+"']").classed('selected', false);
+					d3.selectAll("#nodes g[data-hour='"+i+"']").classed('showing', false);
+				};
+			// };
+
+			// Add range actions
+			for (var i = add_min; i <= add_max; i++) {
+				// focus.select("rect[data-hour='"+i+"']").classed('selected', true);
+				d3.selectAll("#nodes g[data-hour='"+i+"']").classed('showing', true);
+			};
+
+		};
+
+		Session.set("brush_start", min_hour);
+		Session.set("brush_end", max_hour);
+
+		Session.set("old_min_hour", min_hour);
+		Session.set("old_max_hour", max_hour);
+
+	};
+}
+
 Template.streamgraph.x_scale = d3.scale.linear()
     .domain([0, num_hours - 1]);
 
 Template.streamgraph.y_scale = d3.scale.linear()
+
+
+// Brush
+Template.streamgraph.brush = d3.svg.brush()
+    .x(Template.streamgraph.x_scale)
+    // .on('brushstart', Template.streamgraph.brushstart)
+    .on("brush", Template.streamgraph.brushmove);
     
