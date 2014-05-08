@@ -12,6 +12,7 @@
 					{{> map}}
 				</div>
 				{{> focus_context}}
+				{{> streamgraph}}
 			</td>
 			
 			<td id="col_right">
@@ -31,34 +32,13 @@
 
 
 <template name="focus_context">
-	<div id="timeline_controls">
-		
-	</div>
 	<div id="focus_context"></div>
 </template>
 
-<template name="timeline">
-	<div id="timeline_text">
-		<div id="current_day">
-			<h5>Day:</h5>
-			{{current_day}}
-		</div>
-		<div id="total_microblogs">
-			<h5>Total:</h5>
-			{{total_microblogs}}
-		</div>
-		<div id="selected_microblogs">
-			<h5>Selected:</h5>
-			<div></div>
-		</div>
-	</div>
-	<div id="timeline_container"></div>
-</template>
 
-<template name="dateline">
-	<div id="dateline">
-		
-	</div>
+
+<template name="streamgraph">
+	<div id="streamgraph"></div>
 </template>
 
 

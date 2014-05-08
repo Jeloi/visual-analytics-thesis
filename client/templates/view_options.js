@@ -100,13 +100,13 @@ Template.view_options.search = function(searchText) {
 					});
 				}
 			}
+			search_colors[search_id] = getColor();
+
 			// Put the search results in the global variable, with search_id as key
 			search_data[search_id] = search_results;
 
 			// Handle counts by pushing them t the global variable search_counts
-			search_counts[search_id] = counts;
-
-			search_colors[search_id] = getColor();
+			search_counts[search_id] = {search_id: search_id, counts: counts, color: search_colors[search_id]}
 
 			var render_data = {search_text: searchText, color: search_colors[search_id], count: result_count, search_id: search_id};
 			var search_unit = UI.renderWithData(Template.search_unit, {search_unit: render_data});
@@ -114,6 +114,9 @@ Template.view_options.search = function(searchText) {
 
 			// Plot searched data
 			Template.map.plot_searched(search_id);
+
+			// Update the stream
+			Template.streamgraph.draw()
 
 			Session.set("num_searches", Session.get("num_searches")+1);
 		}
@@ -132,6 +135,8 @@ Template.view_options.remove_search = function(searchId) {
 		delete search_data[searchId];
 		delete search_counts[searchId];
 		delete search_colors[searchId];
+
+		Template.streamgraph.draw()
 
 		Session.set("num_searches", Session.get("num_searches")-1);
 		return true;
