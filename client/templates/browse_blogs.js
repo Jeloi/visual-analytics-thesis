@@ -1,5 +1,13 @@
 Template.browse_blogs.blogs = function() { 
-	var blogs = d3.selectAll("svg#map g#day-"+Session.get("day_index")+" .pin").filter(":not(.hidden)").data();
-	console.log(blogs.length);
-	return blogs;
+	// Session.set("update_browse_blogs", false);
+	d3.selectAll(".my_table tr.r").remove();
+	return map_brush_data;
+}
+
+Template.browse_blogs.update = function() {
+	return Session.get("update_browse_blogs");
+}
+
+Template.browse_blogs.prettyDate = function() { 
+	return prettyDate(this.date_time);	
 }

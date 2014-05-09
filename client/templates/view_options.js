@@ -106,6 +106,10 @@ Template.view_options.events({
 	  "click a[href='#filter_tab']": function() { 
 	 	Session.set("filter_view", true);
 	  },
+	  // Browse blogs modal
+	  "click button[data-target='#browse']": function() {
+	  	Session.set("update_browse_blogs", true);
+	  }
 });
 
 // Search functionality
@@ -155,6 +159,8 @@ Template.view_options.search = function(searchText) {
 
 	});
 }
+
+
 
 // Removing a search
 Template.view_options.remove_search = function(searchId) {

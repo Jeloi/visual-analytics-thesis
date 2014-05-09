@@ -69,30 +69,26 @@
 <template name="browse_blogs">
 	<!-- Modal -->
 	<div class="modal fade" id="browse" tabindex="-1" role="dialog" aria-labelledby="browse_modal" aria-hidden="true">
-	  <div class="modal-dialog modal-lg">
+	  <div class="modal-dialog modal-lg" style="max-height: 90%; overflow: scroll">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="browse_modal">Microblogs</h4>
+	        <h4 class="modal-title" id="browse_modal">Browse Selected Microblogs</h4>
 	      </div>
 	      <div class="modal-body">
-	        <table class="table">
-	        	<tr>
-	        		<th>Time</th>
-	        		<th>Id</th>
+	        <table class="table my_table">
+	        	<tr >
+	        		<th style="width: 140px">Time</th>
 	        		<th>Text</th>
-	        		<th>Latitude</th>
-	        		<th>Longitude</th>
 	        	</tr>
-<!-- 	        	{{#each blogs}}
-	        	    <tr>
-	        	    	<td>{{date_time}}</td>
-	        	    	<td>{{id}}</td>
+	        	{{#if update}}
+	        	{{#each blogs}}
+	        	    <tr class="r">
+	        	    	<td>{{prettyDate}}</td>
 	        	    	<td>{{text}}</td>
-	        	    	<td>{{latitude}}</td>
-	        	    	<td>{{longitude}}</td>
 	        	    </tr>
-	    	    {{/each}} -->
+	    	    {{/each}}
+	    	    {{/if}}
 	        </table>
 	      </div>
 	      <div class="modal-footer">

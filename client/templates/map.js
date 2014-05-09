@@ -133,6 +133,7 @@ Template.map.remove_brush = function  () {
 }
 
 Template.map.brush_move = function () {
+	Session.set("update_browse_blogs", false);
 	// Clear map_brush_data
 	map_brush_data.length = 0;
 	var extent = Template.map.brush.extent();
