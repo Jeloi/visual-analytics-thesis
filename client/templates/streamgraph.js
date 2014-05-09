@@ -116,6 +116,8 @@ Template.streamgraph.rendered = function() {
 }
 
 Template.streamgraph.brushmove = function(){
+	Session.set("map_brush_on", false);
+
 	var brush = Template.streamgraph.brush;
 	var extent = brush.extent();
 	var min_hour = (Math.floor(extent[0]));

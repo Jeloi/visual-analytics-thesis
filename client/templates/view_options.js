@@ -44,13 +44,13 @@ Template.view_options.events({
 		}
 	},
 	'click button#explore_section': function (p) {
-		if (Session.get("explore_section") == false) {
+		if (Session.get("plot_overview") == false) {
 			Template.focus_context.explore_section(Session.get("brush_start"), Session.get("brush_end"));
 			console.log("clicked");
 		};
 	},
 	'click button#map_brush': function (p) {
-		Session.set("map_brush", true);
+		Session.set("map_brush_on", true);
 		Template.map.gen_quadtree();
 		Template.map.gen_brush();
 	},

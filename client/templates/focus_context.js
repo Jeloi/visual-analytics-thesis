@@ -178,11 +178,13 @@ Template.focus_context.draw = function() {
 
     function context_brushstart () {
     	// if (Session.get("explore_section")) {
-    		Session.set("explore_section", false);
+    		Session.set("plot_overview", false);
+            Session.set("map_brush_on", false);
     		d3.selectAll("svg#map g#nodes g[data-group='all_nodes']").remove();
     		d3.select('g#focus g#focus_brush').remove();
     		focus.selectAll('rect.selected').classed('selected', false);
     		context.select('rect.extent').classed('explored', false);
+            d3.select('#explore_section').classed("active", false);
     	// };
     }
 }
@@ -214,6 +216,7 @@ Template.focus_context.explore_section = function  (start_hour, end_hour) {
 
 
     function focus_brushmove() {
+        Session.set("map_brush_on", false);
 		var extent = d3.event.target.extent();
 		var x = Template.focus_context.x;
 

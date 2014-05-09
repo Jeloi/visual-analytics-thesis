@@ -41,5 +41,12 @@ Deps.autorun(function () {
 		d3.selectAll("#nodes g[data-group='all_nodes']").classed("disabled", false);
 	}
 });
+
+Deps.autorun(function () {
+	if (Session.get("map_brush_on") == false) {
+		Template.map.remove_brush();
+	}
+});
+
 // jQuery/Bootstrap startup
 $('.btn').button();
