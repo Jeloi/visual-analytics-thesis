@@ -1,25 +1,22 @@
 <template name="view_options">
-	<h5>Mouse Coordinates:</h5>
-	<div class="mousecoords">
-		<p><strong>N:</strong><span class="y">0</span></p>
-		<p><strong>W:</strong><span class="x">0</span></p>
-	</div>
-
 	<h5>Map Toggles</h5>
+	<div class="option_checkboxes">
+		<!-- <div><label> <input type="checkbox" value="microblogs" checked="checked"> Microblogs </label></div> -->
+		<div><label> <input type="checkbox" value="hospitals" class="hospitals"> Hospitals </label></div>
+		<div><label> <input type="checkbox" value="weather" class="weather"> Weather </label></div>
+	</div>
 	<div class="btn-group map_color">
 	  <button type="button" class="btn btn-default" data-color="bw">BW</button>
 	  <button type="button" class="btn btn-default active" data-color="color">Color</button>
 	</div>
 
-	<div class="option_checkboxes">
-		<div><label> <input type="checkbox" value="microblogs" checked="checked"> Microblogs </label></div>
-		<div><label> <input type="checkbox" value="hospitals" class="hospitals"> Hospitals </label></div>
-		<div><label> <input type="checkbox" value="weather" class="weather"> Weather </label></div>
-	</div>
 
 	<h5>Map Interactions</h5>
 	<div>
 		<button class="btn btn-primary" id="map_brush" data-toggle="button">Map Brush</button>
+		<div>
+			Selected: <span class="yellow" id="map_selected_count"></span>
+		</div>
 	</div>
 
 	<!-- Button trigger modal -->

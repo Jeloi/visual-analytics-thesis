@@ -144,6 +144,7 @@ Template.map.brush_move = function () {
 	search(Template.map.quadtree, extent[0][0], extent[0][1], extent[1][0], extent[1][1]);
 	// pins.classed("scanned", function(d) { return d.scanned; });
 	pins.classed("selected", function(d) { return d.selected; });
+	d3.select("#map_selected_count").text(map_brush_data.length);
 
 	// Find the nodes within the specified rectangle.
 	function search(quadtree, x0, y0, x3, y3) {
@@ -251,8 +252,13 @@ Template.map.rendered = function () {
 		// Use the scales, inverted to go in opposite direction. Round to 4 decimals
 		var x = Template.map.x_scale.invert(mouse_coords[0]);
 		var y = Template.map.y_scale.invert(mouse_coords[1]);
-		$('div.mousecoords span.x').html(x.toFixed(4));
-		$('div.mousecoords span.y').html(y.toFixed(4));
+		$('div#mousecoords span.x').html(x.toFixed(4));
+		$('div#mousecoords span.y').html(y.toFixed(4));
+	});
+
+	d3.select("svg#map").on('hover', function(event) {
+		event.preventDefault();
+		$("div#mousecoords").fadeIn();
 	});
 
 }

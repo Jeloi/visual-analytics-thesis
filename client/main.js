@@ -5,7 +5,8 @@ Session.set("brush_end", Session.get("date_end"));
 Session.set("hours_loaded", 0);
 Session.set("all_data_loaded", false);
 Session.set("num_searches", 0);
-Session.set("next_color", Math.floor(Math.random() * (9.9)));
+Session.set("next_color", 0);
+// Session.set("next_color", Math.floor(Math.random() * (9.9)));
 
 // Weather variables
 Session.set("show_weather", false);

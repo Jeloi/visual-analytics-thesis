@@ -50,9 +50,14 @@ Template.view_options.events({
 		};
 	},
 	'click button#map_brush': function (p) {
-		Session.set("map_brush_on", true);
-		Template.map.gen_quadtree();
-		Template.map.gen_brush();
+		if (Session.get("map_brush_on") == false) {
+			Session.set("map_brush_on", true)
+			Template.map.gen_quadtree();
+			Template.map.gen_brush();
+		} else {
+			Session.set("map_brush_on", false)
+			Template.map.remove_brush();
+		}
 	},
 	'submit form#search': function( event ){   // also tried just 'submit', both work for me!
 	   event.preventDefault();

@@ -86,10 +86,14 @@ svg#map {
 	// stroke
 }
 
-// View Options Styles
-.mousecoords {
-	span {
-		margin-left: 10px;
+#mousecoords {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(51, 51, 51, 0.75);
+	padding: 5px 10px;
+	strong, .y {
+		margin-right: 0.5em;
 	}
 }
 
@@ -229,7 +233,7 @@ svg#map {
 	right: 0;
 	width: 100px;
 	height: 190px;
-	background: rgba(51, 51, 51, 0.58);
+	background: rgba(51, 51, 51, 0.75);
 	text-align: center;
 	
 	.weather {
