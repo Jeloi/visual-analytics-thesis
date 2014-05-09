@@ -214,3 +214,76 @@ svg#map {
 	  font-size: 11px;
 	}
 }
+
+// Weather Module
+.weather_module {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100px;
+	height: 190px;
+	background: rgba(51, 51, 51, 0.58);
+	text-align: center;
+	
+	.weather {
+		height: 70px;
+		margin: 10px 15px 0px 15px;
+		background-size: contain;
+		background-repeat: no-repeat;
+		&.clear {
+			background-image: url("/images/clear.png");
+		}
+		&.rain {
+			background-image: url("/images/rain.png");
+		}
+		&.cloudy {
+			background-image: url("/images/cloudy.png");
+		}
+		&.showers {
+			background-image: url("/images/showers.png");
+		}
+	}
+	.arrow {
+		height: 40px;
+		margin: 10px 20px 0px 25px;
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-image: url("/images/arrow.png");
+		&.SE {
+			-webkit-transform: rotate(225deg); 
+			-moz-transform: rotate(225deg); 
+			-o-transform: rotate(225deg);
+			-ms-transform: rotate(225deg); 
+		}
+		&.N {
+			-webkit-transform: rotate(90deg); 
+			-moz-transform: rotate(90deg); 
+			-o-transform: rotate(90deg);
+			-ms-transform: rotate(90deg); 
+		}
+		&.NW {
+			-webkit-transform: rotate(45deg); 
+			-moz-transform: rotate(45deg); 
+			-o-transform: rotate(45deg);
+			-ms-transform: rotate(45deg); 
+		}
+		&.E {
+			-webkit-transform: rotate(180deg); 
+			-moz-transform: rotate(180deg); 
+			-o-transform: rotate(180deg);
+			-ms-transform: rotate(180deg); 
+		}
+		&.WNW {
+			-webkit-transform: rotate(22.5deg); 
+			-moz-transform: rotate(22.5deg); 
+			-o-transform: rotate(22.5deg);
+			-ms-transform: rotate(22.5deg); 
+		}
+		&.NNW {
+			-webkit-transform: rotate(67.5deg); 
+			-moz-transform: rotate(67.5deg); 
+			-o-transform: rotate(67.5deg);
+			-ms-transform: rotate(67.5deg); 
+		}
+	}
+}

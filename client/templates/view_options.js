@@ -36,6 +36,13 @@ Template.view_options.events({
 			}
 		}
 	},
+	'click input.weather': function(p) {
+		if (p.target.checked) {
+			Session.set("show_weather", true);
+		} else{
+			Session.set("show_weather", false);
+		}
+	},
 	'click button#explore_section': function (p) {
 		if (Session.get("explore_section") == false) {
 			Template.focus_context.explore_section(Session.get("brush_start"), Session.get("brush_end"));

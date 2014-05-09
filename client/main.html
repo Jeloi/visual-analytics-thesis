@@ -34,7 +34,21 @@
 <!-- Templates -->
 <template name="map">
 	<div id="date_range">{{date_start}} - {{date_end}}</div>
+	{{> weather}}
 </template>
+
+<template name="weather">
+	{{#if weather_visible}}
+	    <div class="weather_module">
+		    <div class="weather {{object.weather}}"></div>
+		    <p>{{object.weather}}</p>
+		    <div class="arrow {{object.wind_direction}}"></div>
+		    <p>{{object.avg_wind_speed}} mph</p>
+		    <!-- <p>{{object.wind_direction}}</p> -->
+	    </div>
+	{{/if}}
+</template>
+
 
 
 <template name="focus_context">

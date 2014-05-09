@@ -21,3 +21,15 @@ Meteor.startup(function () {
 			d3.select('#loading_contents .percentage').text(percentage+" Loaded");
 		});
 	};
+
+	// Load csv data
+	d3.csv('/weather.csv', function(d) {
+	  return {
+	    avg_wind_speed: +d.avg_wind_speed,
+	    date: new Date(d.date).getTime(),
+	    weather: d.weather,
+	    wind_direction: d.wind_direction
+		};
+	}, function(err, rows) {
+		weather = rows;
+	});

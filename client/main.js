@@ -7,6 +7,10 @@ Session.set("all_data_loaded", false);
 Session.set("num_searches", 0);
 Session.set("next_color", Math.floor(Math.random() * (9.9)));
 
+// Weather variables
+Session.set("show_weather", false);
+Session.set("current_day", hourToDate(Session.get("brush_end")).setHours(0));
+
 
 Deps.autorun(function () {
 	if (Session.get("hours_loaded") == num_hours) {
@@ -18,6 +22,12 @@ Deps.autorun(function () {
 	};
 });
 
+Deps.autorun(function () {
+	// Template.weather.object(Session.get("brush_end"));
+	if (hourToDate(Session.get("brush_end")).setHours(0) != Session.get("current_day")) {
+		Session.set("current_day", hourToDate(Session.get("brush_end")).setHours(0));
+	};
+});
 
 // jQuery/Bootstrap startup
 $('.btn').button();
