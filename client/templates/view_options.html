@@ -5,7 +5,7 @@
 		<p><strong>W:</strong><span class="x">0</span></p>
 	</div>
 
-	<h5>Map</h5>
+	<h5>Map Toggles</h5>
 	<div class="btn-group map_color">
 	  <button type="button" class="btn btn-default" data-color="bw">BW</button>
 	  <button type="button" class="btn btn-default active" data-color="color">Color</button>
@@ -17,16 +17,21 @@
 		<div><label> <input type="checkbox" value="weather" class="weather"> Weather </label></div>
 	</div>
 
+	<h5>Map Interactions</h5>
+	<div>
+		<button class="btn btn-primary" id="map_brush" data-toggle="button">Map Brush</button>
+	</div>
+
 	<!-- Button trigger modal -->
 <!-- 	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#browse">
 	  Browse Microblogs
 	</button> -->
-
+	<h5>Overview Options</h5>
 	<div class="section">
+		<button class="btn btn-primary" id="explore_section" data-toggle="button">Plot Overview</button>
 		<div>
 			Selected: <span class="yellow">{{selected_count}}</span>
 		</div>
-		<button class="btn btn-primary" id="explore_section" data-toggle="button">Plot Overview</button>
 	</div>
 
 
@@ -34,7 +39,7 @@
 
 	<ul class="nav nav-tabs">
 	  <li class="active"><a href="#overview_tab" data-toggle="tab">Overview</a></li>
-	  <li><a href="#filter_tab" data-toggle="tab">Filter Streamgraph</a></li>
+	  <li><a href="#filter_tab" data-toggle="tab">Filter</a></li>
 	</ul>
 
 	<div id="search_section">
@@ -45,6 +50,7 @@
 						<span class="input-group-btn"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button></span>
 				</div>
 			</form>
+			<br>
 		<div id="results_container"></div>
 	</div>
 

@@ -11,6 +11,10 @@ Session.set("next_color", Math.floor(Math.random() * (9.9)));
 Session.set("show_weather", false);
 Session.set("current_day", hourToDate(Session.get("brush_end")).setHours(0));
 
+Session.set("map_brush_on", false);
+Session.set("plot_overview", false);
+Session.set("filter_view", false)
+
 
 Deps.autorun(function () {
 	if (Session.get("hours_loaded") == num_hours) {
@@ -29,5 +33,13 @@ Deps.autorun(function () {
 	};
 });
 
+
+Deps.autorun(function () {
+	if (Session.get("filter_view") == true) {
+		d3.selectAll("#nodes g[data-group='all_nodes']").classed("disabled", true);
+	} else {
+		d3.selectAll("#nodes g[data-group='all_nodes']").classed("disabled", false);
+	}
+});
 // jQuery/Bootstrap startup
 $('.btn').button();

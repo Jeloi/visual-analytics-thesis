@@ -72,6 +72,13 @@ svg#map {
 	fill: #F2465A;
 	fill-opacity: 0.8;
 	stroke: #000;
+	&.selected {
+		fill: white;
+	}
+}
+
+.btn-primary.active {
+	background-color: $orange;
 }
 
 .hospitals {

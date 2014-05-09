@@ -49,9 +49,15 @@ Template.view_options.events({
 			console.log("clicked");
 		};
 	},
+	'click button#map_brush': function (p) {
+		Session.set("map_brush", true);
+		Template.map.gen_quadtree();
+		Template.map.gen_brush();
+	},
 	'submit form#search': function( event ){   // also tried just 'submit', both work for me!
 	   event.preventDefault();
 	   event.stopPropagation();
+	   $("a[href='#filter_tab']").click();
 	   var searchText = $('#search input').val();
 	   if (searchText != "") {
 		   Template.view_options.search(searchText);
@@ -88,6 +94,13 @@ Template.view_options.events({
 	 	Template.view_options.remove_search(search_id);
 	 	p.remove();
 	 },
+	 // Filter view?
+	 "click a[href='#overview_tab']": function() { 
+	 	Session.set("filter_view", false);
+	  },
+	  "click a[href='#filter_tab']": function() { 
+	 	Session.set("filter_view", true);
+	  },
 });
 
 // Search functionality
