@@ -51,10 +51,10 @@ searchMicroblogs = function (searchText) {
                 search_results[hour_index].push(searchResults[i].obj._id);
             };
         }
-        console.log("inside searchMicroblogs");
+        // console.log("inside searchMicroblogs");
 
         // Initialize bins for hours that will each hold an array of id's
-        console.log(search_counts.length);
+        // console.log(search_counts.length);
         return [search_counts, search_results, searchResults.length];
     }
 };

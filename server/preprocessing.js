@@ -2,6 +2,7 @@
 var sys = Npm.require('sys');
 var exec=Npm.require("child_process").exec;
 var fs = Npm.require('fs');
+var natural = Meteor.require('natural');
 
 // Development methods to call on the server to clean up data in the database
 Meteor.methods({
@@ -84,5 +85,34 @@ Meteor.methods({
 			// Writing to outside area so server doesn't restart while generating files
 			fs.writeFile("/Users/jeloi/index_jsons/index-"+i+".json", JSON.stringify(json));
 		}
+	},
+	dev_testNatural: function(string){
+		natural.PorterStemmer.attach();
+		console.log(string.tokenizeAndStem());	
+	},
+	dev_tokenizeSum: function () {
+		natural.PorterStemmer.attach();
+		var cursor = Microblogs.find();
+		cursor.forEach(function (doc) {
+			var tokenized = doc.text.toString().tokenizeAndStem();
+			console.log(doc._id);
+			Microblogs.update({_id : doc._id}, {$set: {tokenized: tokenized}});
+		});
+		console.log("finished!");
+	},
+	dev_tokenizeWN: function (string) {
+		var wordnet = new natural.WordNet();
+		wordnet.lookup(string, function(results) {
+		    // results.forEach(function(result) {
+		    	var result = results[0];
+		        console.log('------------------------------------');
+		        console.log(result.synsetOffset);
+		        console.log(result.pos);
+		        console.log(result.lemma);
+		        console.log(result.synonyms);
+		        console.log(result.pos);
+		        console.log(result.gloss);
+		    // });
+		});
 	}
 });
